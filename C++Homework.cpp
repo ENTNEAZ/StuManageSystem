@@ -191,43 +191,42 @@ void search()//查询
 
 void change()//修改 
 {
-	int i;
+	struct Stu* item;
+	int id;
 	printf("输入要修改学生的id:");
-	scanf("%d", &i);
-	p = head;
-	while (p != NULL)
+	scanf("%d", &id);
+	item = head;
+	while (item != NULL)
 	{
-		if (p->id == i)
+		if (item->id == id)
 		{
 			printf("开始修改\n");
 			printf("输入学号:");
-			scanf("%d", &p->id);
+			scanf("%d", &item->id);
 			printf("输入姓名:");
-			scanf("%s", &p->name);
+			scanf("%s", &item->name);
 			printf("输入性别:");
-			scanf("%s", &p->sex);
+			scanf("%s", &item->sex);
 			printf("输入专业:");
-			scanf("%s", &p->field);
+			scanf("%s", &item->field);
 			printf("输入出生日期:");
-			scanf("%d", &p->birthday);
+			scanf("%d", &item->birthday);
 			printf("输入家庭地址:");
-			scanf("%s", &p->address);
+			scanf("%s", &item->address);
 			printf("输入英语入学成绩:");
-			scanf("%f", &p->E_grade);
+			scanf("%f", &item->E_grade);
 			printf("-----------------------------------------------");
 			printf("\n");
 			printf("修改后结果为\n");
-			printf("id: %d   姓名: %s   性别: %s   专业: %s   出生日期: %s   家庭地址: %s   英语入学成绩: %f\n", p->id, p->name, p->sex, p->field, p->birthday, p->address, p->E_grade);
-			menu();
+			printf("id: %d   姓名: %s   性别: %s   专业: %s   出生日期: %s   家庭地址: %s   英语入学成绩: %f\n", item->id, item->name, item->sex, item->field, item->birthday, item->address, item->E_grade);
+			return;
 		}
 		else
-		{
-			q = p;
-			p = p->next;
-		}
+			item = item->next;
 	}
-	printf("id不存在！请重新输入:");
-	change();
+	printf("id不存在！返回至菜单");
+	system("pause");
+	return;
 }
 
 void del()//删除 
