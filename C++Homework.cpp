@@ -2,18 +2,19 @@
 #include <stdlib.h>
 #include <string.h>
 
-struct Date
+/*struct Date
 {
 	int year;
 	int month;
 	int day;
-};
+};*/
+
 struct Stu {
 	int id;//学号 
 	char name[15];//姓名 
 	char sex[5]; //性别 
 	char field[30];//专业 
-	struct Date birthday;//出生日期 
+	char birthday[20];//出生日期 
 	char address[100];//家庭地址 
 	float E_grade;//英语入学成绩 
 	struct Stu* next;
