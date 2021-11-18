@@ -256,9 +256,20 @@ void del()//删除
 	del();
 }
 
-void searchall()
+void searchall()//查找全部（遍历） 
 {
-
+	//struct Stu* p, * q;
+	if (head == NULL)
+	{
+		return;
+	}
+	head = head->next;
+	while (head != NULL)
+	{
+		printf("id: %d   姓名: %s   性别: %s   专业: %s   出生日期: %s   家庭地址: %s   英语入学成绩: %f\n", p->id, p->name, p->sex, p->field, p->birthday, p->address, p->E_grade);
+		head = head->next;
+	}
+	printf("\n");
 }
 
 void sort()
@@ -275,6 +286,6 @@ int main(int argc, char* argv[]) {
 	head = NULL;
 	last = NULL;
 	menu();
-	//system(pause);
+	//system("pause");
 	return 0;
 }
