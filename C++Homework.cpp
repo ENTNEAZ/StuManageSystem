@@ -31,7 +31,7 @@ struct Stu {
 //7. 学生信息保存
 //8. 退出
 
-struct Stu* head = (struct Stu*)malloc(sizeof(struct Stu));
+struct Stu* head;
 struct Stu* p, * q;
 struct Stu* last;
 
@@ -61,6 +61,7 @@ void menu() {
 		printf("                            学生信息储存输入 7 \n");
 		printf("                            保存并安全退出   8 \n");
 		printf("-----------------------------------------------------------------------------\n");
+		printf("请输入序号：");
 		scanf("%d", &userChoice);
 		switch (userChoice)
 		{
@@ -97,39 +98,44 @@ void add()//增加
 {
 	int id;
 	struct Stu* toAdd;
+	struct Stu* a = head;
 	printf("输入id：");
 	scanf("%d", &id);
 	if (isExist(id, true)) {
 		add();//已经存在此人 递归再次输入
-	}
-	
-
-	if (last == head)
-		toAdd = head;
-	else
+	} else {
 		toAdd = (struct Stu*)malloc(sizeof(struct Stu));
-		
-	toAdd->id = id;
-	printf("输入姓名: ");
-	scanf("%s", &toAdd->name);
-	printf("输入性别: ");
-	scanf("%s", &toAdd->sex);
-	printf("输入专业: ");
-	scanf("%s", &toAdd ->field);
-	printf("输入出生日期: ");
-	scanf("%d", &toAdd->birthday);
-	printf("输入家庭地址: ");
-	scanf("%s", &toAdd->address);
-	printf("输入英语入学成绩：");
-	scanf("%f", &toAdd->E_grade);
-	toAdd->next = NULL;
-	last->next = toAdd;
-	last = toAdd;
+		toAdd->id = id;
+		printf("输入姓名: ");
+		scanf("%s", &toAdd->name);
+		printf("输入性别: ");
+		scanf("%s", &toAdd->sex);
+		printf("输入专业: ");
+		scanf("%s", &toAdd->field);
+		printf("输入出生日期: ");
+		scanf("%d", &toAdd->birthday);
+		printf("输入家庭地址: ");
+		scanf("%s", &toAdd->address);
+		printf("输入英语入学成绩：");
+		scanf("%f", &toAdd->E_grade);
+		toAdd->next = NULL;
+
+		if (head == NULL) {
+			head = toAdd;
+			last = head;//last指向最后一个元素
+		}
+		else {
+			last->next = toAdd;
+			last = toAdd;
+		}
+	}
 	return;
 }
 
 bool isExist(int id,bool output = false)//查重 output为是否输出已经存在的信息
 {
+	if (head == NULL)
+		return false;
 	struct Stu* item = head;
 	if (item->id == id)
 	{
@@ -140,7 +146,7 @@ bool isExist(int id,bool output = false)//查重 output为是否输出已经存�
 		}
 		return true;
 	}
-	while (item->next != NULL)
+	while (item != NULL)
 	{
 		if (item->id == id)
 		{
@@ -159,20 +165,27 @@ bool isExist(int id,bool output = false)//查重 output为是否输出已经存�
 
 void search()//查询 
 {
-	char iname[15];
-	printf("输入要查询学生的id:");
-	scanf("%s", &iname);
-	p = head;
-	while (p != NULL)
+	struct Stu* item = head;
+	char inputName[15];
+	printf("输入要查询学生的姓名:");
+	scanf("%s", &inputName);
+	inputName[14] = '\0';//防止用户输入过长 导致没有\0
+	printf("下面是数据库内有关\"%s\"的信息\n\n", inputName);
+	while (item != NULL)
 	{
-		if (p->name == iname)
+		if (strcmp(item->name,inputName) == 0)
 		{
-			printf("id: %d   姓名: %s   性别: %s   专业: %s   出生日期: %s   家庭地址: %s   英语入学成绩: %f\n", p->id, p->name, p->sex, p->field, p->birthday, p->address, p->E_grade);
-			menu();
+			printf("id: %d   姓名: %s   性别: %s   专业: %s   出生日期: %s   家庭地址: %s   英语入学成绩: %f\n", item->id, item->name, item->sex, item->field, item->birthday, item->address, item->E_grade);
+			//防止重名 继续执行
+			item = item->next;
+		}
+		else {
+			item = item->next;
 		}
 	}
-	printf("查无此人,请重新输入\n");
-	search();
+	printf("\n以上是数据库内有关\"%s\"的信息\n", inputName);
+	system("pause");
+	return;
 }
 
 void change()//修改 
@@ -258,8 +271,8 @@ void save()
 }
 
 int main(int argc, char* argv[]) {
-	head->next = NULL;//head 的 next 设为NULL
-	last = head;//last指向最后一个元素
+	head = NULL;
+	last = NULL;
 	menu();
 	//system(pause);
 	return 0;
