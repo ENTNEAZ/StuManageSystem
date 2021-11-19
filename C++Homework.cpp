@@ -309,7 +309,7 @@ void del()//删除
 	return;
 }
 
-void searchAll()//查找全部（遍历） 
+/*void searchAll()//查找全部（遍历） 
 {
 	struct Stu* item = head;
 	char informationFind[30];
@@ -327,7 +327,39 @@ void searchAll()//查找全部（遍历）
 	printf("\n");
 	system("pause");
 	return;
+}*/
+
+void searchAll()//信息统计（筛选出制定专业或性别或年龄）
+{
+	int userChoice;
+	while (true)
+	{
+		printf("\n");
+		printf("----------------------------学生信息统计系统----------------------------");
+		printf("\n");
+		printf("按照专业筛选输入1");
+		printf("按照性别筛选输入2");
+		printf("按照年龄筛选输入3");
+		printf("\n");
+		printf("------------------------------------------------------------------------");
+		printf("\n");
+		printf("请输入序号:");
+		scanf("%d", &userChoice);
+		switch (userChoice)
+		{
+		case 1:
+			screenField();
+			break;
+		case 2:
+			screenSex();
+			break;
+		case 3:
+			screenAge();
+			break;
+		}
+	}
 }
+
 
 void sort()
 {
