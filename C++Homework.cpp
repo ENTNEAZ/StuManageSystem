@@ -273,17 +273,18 @@ void del()//删除
 	return;
 }
 
-void searchall()//查找全部（遍历） 
+void searchall()//²éÕÒÈ«²¿£¨±éÀú£© 
 {
+	struct Stu* item = head;
 	if (head == NULL)
 	{
 		return;
 	}
-	head = head->next;
-	while (head != NULL)
+	item = head->next;
+	while (item != NULL)
 	{
-		printf("id: %d   姓名: %s   性别: %s   专业: %s   出生日期: %s   家庭地址: %s   英语入学成绩: %f\n", p->id, p->name, p->sex, p->field, p->birthday, p->address, p->E_grade);
-		head = head->next;
+		printf("id: %d   ÐÕÃû: %s   ÐÔ±ð: %s   ×¨Òµ: %s   ³öÉúÈÕÆÚ: %s   ¼ÒÍ¥µØÖ·: %s   Ó¢ÓïÈëÑ§³É¼¨: %f\n", item->id, item->name, item->sex, item->field, item->birthday, item->address, item->E_grade);
+		item = item->next;
 	}
 	printf("\n");
 }
