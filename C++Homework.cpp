@@ -116,7 +116,8 @@ void add()//增加
 	scanf("%d", &id);
 	if (isExist(id, true)) {
 		add();//已经存在此人 递归再次输入
-	} else {
+	}
+	else {
 		char name[15], sex[5], field[30], birthday[20], address[100];
 		float E_grade;
 		int year, month, day;
@@ -170,7 +171,7 @@ void addRaw(int id,char name[],char sex[],char field[],int year,int month,int da
 	return;
 }
 
-bool isExist(int id,bool output = false)//查重 output为是否输出已经存在的信息
+bool isExist(int id, bool output = false)//查重 output为是否输出已经存在的信息
 {
 	if (head == NULL)
 		return false;
@@ -189,14 +190,14 @@ bool isExist(int id,bool output = false)//查重 output为是否输出已经存�
 		if (item->id == id)
 		{
 			if (output) {
-				printf("id: %d   姓名: %s   性别: %s   专业: %s   \n", item->id, item->name,item->sex, item->field);
+				printf("id: %d   姓名: %s   性别: %s   专业: %s   \n", item->id, item->name, item->sex, item->field);
 				printf("学号已存在，请重新输入\n");
 				printf("\n");
 			}
 			return true;
 		}
 		else
-			item = item -> next;
+			item = item->next;
 	}
 	return false;
 }
@@ -211,7 +212,7 @@ void search()//查询
 	printf("下面是数据库内有关\"%s\"的信息\n\n", inputName);
 	while (item != NULL)
 	{
-		if (strcmp(item->name,inputName) == 0)
+		if (strcmp(item->name, inputName) == 0)
 		{
 			printStu(item);
 			//防止重名 继续执行
@@ -275,7 +276,7 @@ void change()//修改
 void del()//删除 
 {
 	int id;
-	struct Stu* needToDel,* beforeDel;
+	struct Stu* needToDel, * beforeDel;
 	beforeDel = NULL;
 	printf("输入要删除学生的id:");
 	scanf("%d", &id);
@@ -310,8 +311,10 @@ void del()//删除
 
 void searchAll()//查找全部（遍历） 
 {
-	printf("\n以下是数据库内全部信息：\n");
 	struct Stu* item = head;
+	char informationFind[30];
+	printf("请输入要筛选出的专业：");
+	scanf("%s", &informationFind);
 	if (head == NULL)
 	{
 		return;
