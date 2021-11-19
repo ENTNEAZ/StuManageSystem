@@ -482,7 +482,7 @@ void load(bool output = false) {
 	return;
 }
 
-void save(bool output = false)
+void save(bool output = false)//文件存放
 {
 	FILE* fp = NULL;
 	struct Stu* item = head;
@@ -497,7 +497,6 @@ void save(bool output = false)
 		fprintf(fp, "%d\n", item->birthday.day);
 		fprintf(fp, "%s\n", item->address);
 		fprintf(fp, "%.1f\n", item->E_grade);
-
 
 		item = item->next;
 	}
