@@ -358,7 +358,7 @@ void searchAll()//信息统计（筛选出制定专业或性别或年龄）
 		case 3:
 			screenAge();
 			break;
-		default ：
+		default :
 			printf("无法识别，请重新输入！\n");
 			system("pause");
 		}
@@ -378,7 +378,7 @@ void screenField()//按照专业筛选出符合条件的学生
 	}
 	while (item != NULL)
 	{
-		if (srecmp(item->field, findField) == 0)
+		if (strcmp(item->field, findField) == 0)
 		{
 			printStu(item);
 			printf("\n");
@@ -406,7 +406,7 @@ void screenSex()//按照性别筛选出符合条件的学生
 	{
 		if (strcmp(item->sex, findSex) == 0)
 		{
-			printfStu(item);
+			printStu(item);
 			printf("\n");
 			count++;
 		}
@@ -432,7 +432,7 @@ void screenAge()
 	{
 		if (2021-item->birthday.year == findAge)
 		{
-			printfStu(item);
+			printStu(item);
 			printf("\n");
 			count++;
 		}
@@ -448,6 +448,7 @@ void sort()
 {
 
 }
+
 void load(bool output = false) {
 	FILE* fp = NULL;
 	char name[15], sex[5], field[30], birthday[20], address[100];
@@ -480,6 +481,7 @@ void load(bool output = false) {
 
 	return;
 }
+
 void save(bool output = false)
 {
 	FILE* fp = NULL;
