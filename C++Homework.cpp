@@ -100,8 +100,11 @@ void menu() {
 			break;
 		case 8:
 			printf("退出");
+			return;
+			break;
 		default:
-			printf("重新输入\n");
+			printf("无法识别，请重新输入\n");
+			system("pause");
 		}
 	}
 }
