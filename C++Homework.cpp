@@ -356,6 +356,9 @@ void searchAll()//信息统计（筛选出制定专业或性别或年龄）
 		case 3:
 			screenAge();
 			break;
+		default ：
+			printf("无法识别，请重新输入！\n");
+		system("pause");
 		}
 	}
 }
