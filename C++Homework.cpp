@@ -408,6 +408,7 @@ void screenSex()//按照性别筛选出符合条件的学生
 			printf("\n");
 			count++;
 		}
+		item = item->next;
 	}
 	printf("符合条件的学生有%d个", count);
 	system("pause");
