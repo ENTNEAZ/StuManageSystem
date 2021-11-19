@@ -40,15 +40,16 @@ struct Stu* p, * q;
 void menu();		//菜单 0 
 void add();			//新增学生信息 done 1. 
 void del();			//删除学生信息 done 2.
-					//TODO 导入学生信息 3.
+void load();			//TODO 导入学生信息 3.
 void search();		//学生信息搜索(按姓名)  done 4.
 void searchall();	//学生信息统计（按专业或性别或年龄---年龄要自动计算） 5.
 void sort();		//排序 6.
 void save();		//学生信息保存 7.
 
+
 void change();//修改学生信息（好像没要求写，自己加的）done 
 
-
+void addRaw(int id, char name[], char sex[], char field[], char birthday[], char address[], float E_grade);
 bool isExist(int id,bool output);
 
 void menu() {
@@ -104,37 +105,53 @@ void menu() {
 void add()//增加 
 {
 	int id;
-	struct Stu* toAdd;
-	struct Stu* a = head;
 	printf("输入id：");
 	scanf("%d", &id);
 	if (isExist(id, true)) {
 		add();//已经存在此人 递归再次输入
 	} else {
-		toAdd = (struct Stu*)malloc(sizeof(struct Stu));
-		toAdd->id = id;
+		char name[15], sex[5], field[30], birthday[20], address[100];
+		float E_grade;
 		printf("输入姓名: ");
-		scanf("%s", &toAdd->name);
+		scanf("%s", &name);
 		printf("输入性别: ");
-		scanf("%s", &toAdd->sex);
+		scanf("%s", &sex);
 		printf("输入专业: ");
-		scanf("%s", &toAdd->field);
+		scanf("%s", &field);
 		printf("输入出生日期: ");
-		scanf("%d", &toAdd->birthday);
+		scanf("%d", &birthday);
 		printf("输入家庭地址: ");
-		scanf("%s", &toAdd->address);
+		scanf("%s", &address);
 		printf("输入英语入学成绩：");
-		scanf("%f", &toAdd->E_grade);
-		toAdd->next = NULL;
+		scanf("%f", &E_grade);
 
-		if (head == NULL) {
-			head = toAdd;
-			last = head;//last指向最后一个元素
-		}
-		else {
-			last->next = toAdd;
-			last = toAdd;
-		}
+		addRaw(id, name, sex, field, birthday, address, E_grade);
+		printf("添加成功！\n");
+		system("pause");
+	}
+	return;
+}
+
+
+void addRaw(int id,char name[],char sex[],char field[],char birthday[],char address[],float E_grade) {
+	struct Stu* toAdd = (struct Stu*)malloc(sizeof(struct Stu));
+	struct Stu* a = head;
+	toAdd->id = id;
+	strcpy(toAdd->name, name);
+	strcpy(toAdd->sex, sex);
+	strcpy(toAdd->field, field);
+	strcpy(toAdd->birthday, birthday);
+	strcpy(toAdd->address, address);
+	toAdd->E_grade = E_grade;
+	toAdd->next = NULL;
+
+	if (head == NULL) {
+		head = toAdd;
+		last = head;//last指向最后一个元素
+	}
+	else {
+		last->next = toAdd;
+		last = toAdd;
 	}
 	return;
 }
@@ -273,7 +290,7 @@ void del()//删除
 	return;
 }
 
-void searchall()//²éÕÒÈ«²¿£¨±éÀú£© 
+void searchall()//查找全部（遍历） 
 {
 	struct Stu* item = head;
 	if (head == NULL)
@@ -283,7 +300,7 @@ void searchall()//²éÕÒÈ«²¿£¨±éÀú£©
 	item = head->next;
 	while (item != NULL)
 	{
-		printf("id: %d   ÐÕÃû: %s   ÐÔ±ð: %s   ×¨Òµ: %s   ³öÉúÈÕÆÚ: %s   ¼ÒÍ¥µØÖ·: %s   Ó¢ÓïÈëÑ§³É¼¨: %f\n", item->id, item->name, item->sex, item->field, item->birthday, item->address, item->E_grade);
+		printf("id: %d   姓名: %s   性别: %s   专业: %s   出生日期: %s   家庭地址: %s   英语入学成绩: %f\n", item->id, item->name, item->sex, item->field, item->birthday, item->address, item->E_grade);
 		item = item->next;
 	}
 	printf("\n");
@@ -293,10 +310,16 @@ void sort()
 {
 
 }
-
+void load() {
+	return;
+}
 void save()
 {
+	FILE* fp = NULL;
+	fp = fopen("information.txt", "w");
 
+
+	return;
 }
 
 int main(int argc, char* argv[]) {
