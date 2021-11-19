@@ -321,7 +321,7 @@ void save()
 	while (item != NULL) {
 		fprintf(fp,"%d\n",item->id);
 		fprintf(fp,"%s\n", item->name);
-		fprintf(fp,"%s\n", item->field);
+		fprintf(fp,"%s\n", item->field)；
 		fprintf(fp, "%s\n", item->birthday);
 		fprintf(fp, "%s\n", item->address);
 		fprintf(fp, "%.1f\n", item->E_grade);
