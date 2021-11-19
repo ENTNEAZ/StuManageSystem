@@ -119,7 +119,7 @@ void add()//增加
 		printf("输入专业: ");
 		scanf("%s", &field);
 		printf("输入出生日期: ");
-		scanf("%d", &birthday);
+		scanf("%d", &birthday)；
 		printf("输入家庭地址: ");
 		scanf("%s", &address);
 		printf("输入英语入学成绩：");
