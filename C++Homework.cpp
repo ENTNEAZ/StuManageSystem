@@ -33,7 +33,7 @@ struct Stu {
 //8. 退出
 
 struct Stu* head;
-struct Stu* p, * q;
+//struct Stu* p, * q;
 struct Stu* last;
 
 void menu();//菜单 
@@ -232,19 +232,20 @@ void change()//修改
 
 void del()//删除 
 {
+	
 	int i;
+	struct Stu* item = head;
 	printf("输入要删除学生的id:");
 	scanf("%d", &i);
-	p = head;
-	while (p != NULL)
+	while (item != NULL)
 	{
-		if (p->id == i)
+		if (item->id == i)
 		{
-			printf("id: %d   姓名: %s   性别: %s   专业: %s   出生日期: %s   家庭地址: %s   英语入学成绩: %f\n", p->id, p->name, p->sex, p->field, p->birthday, p->address, p->E_grade);
-			q->next = p->next;
-			p->next = NULL;
+			printf("id: %d   姓名: %s   性别: %s   专业: %s   出生日期: %s   家庭地址: %s   英语入学成绩: %f\n", item->id, item->name, item->sex, item->field, item->birthday, item->address, item->E_grade);
+			q->next = item->next;
+			item->next = NULL;
 			printf("该学生信息已删除\n");
-			menu();
+			return;
 		}
 		else
 		{
@@ -258,7 +259,6 @@ void del()//删除
 
 void searchall()//查找全部（遍历） 
 {
-	//struct Stu* p, * q;
 	if (head == NULL)
 	{
 		return;
