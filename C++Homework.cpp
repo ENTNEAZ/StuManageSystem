@@ -49,7 +49,7 @@ void save(bool output);		//学生信息保存			done	7.
 
 void change();		//修改学生信息（好像没要求写，自己加的）done 
 void addRaw(int id, char name[], char sex[], char field[], int year, int month, int day, char address[], float E_grade);
-bool isExist(int id, bool output);
+bool isExist(int id,bool output);
 void printStu(struct Stu* stu);
 
 void menu() {
@@ -146,7 +146,7 @@ void add()//增加
 }
 
 
-void addRaw(int id, char name[], char sex[], char field[], int year, int month, int day, char address[], float E_grade) {
+void addRaw(int id,char name[],char sex[],char field[],int year,int month,int day,char address[],float E_grade) {
 	struct Stu* toAdd = (struct Stu*)malloc(sizeof(struct Stu));
 	struct Stu* a = head;
 	toAdd->id = id;
@@ -307,7 +307,6 @@ void del()//删除
 
 void searchAll()//查找全部（遍历） 
 {
-	printf("\n以下是数据库内全部信息：\n");
 	struct Stu* item = head;
 	char informationFind[30];
 	printf("请输入要筛选出的专业：");
@@ -318,13 +317,8 @@ void searchAll()//查找全部（遍历）
 	}
 	while (item != NULL)
 	{
-//		printStu(item);
-//		item = item->next;
-		if (strcmp(item->field, informationFind) == 0)
-		{
-
-		}
-
+		printStu(item);
+		item = item->next;
 	}
 	printf("\n");
 	system("pause");
@@ -352,7 +346,7 @@ void load(bool output = false) {
 		fscanf(fp, "%d\n", &month);
 		fscanf(fp, "%d\n", &day);
 		fscanf(fp, "%s\n", &address);
-		haveNext = (fscanf(fp, "%f\n", &E_grade) == -1) ? false : true;//当返回-1时代表没有内容了
+		haveNext = (fscanf(fp, "%f\n", &E_grade) == -1)?false:true;//当返回-1时代表没有内容了
 		if (haveNext)
 			addRaw(id, name, sex, field, year, month, day, address, E_grade);
 	}
@@ -362,7 +356,7 @@ void load(bool output = false) {
 		printf("导入成功\n");
 		system("pause");
 	}
-
+		
 
 	return;
 }
@@ -372,10 +366,10 @@ void save(bool output = false)
 	struct Stu* item = head;
 	fp = fopen("information.txt", "w");
 	while (item != NULL && fp != NULL) {
-		fprintf(fp, "%d\n", item->id);
-		fprintf(fp, "%s\n", item->name);
+		fprintf(fp,"%d\n",item->id);
+		fprintf(fp,"%s\n", item->name);
 		fprintf(fp, "%s\n", item->sex);
-		fprintf(fp, "%s\n", item->field);
+		fprintf(fp,"%s\n", item->field);
 		fprintf(fp, "%d\n", item->birthday.year);
 		fprintf(fp, "%d\n", item->birthday.month);
 		fprintf(fp, "%d\n", item->birthday.day);
@@ -385,7 +379,7 @@ void save(bool output = false)
 
 		item = item->next;
 	}
-
+	
 	fp != NULL ? fclose(fp) : NULL;
 	if (output) {
 		printf("导出成功\n");
