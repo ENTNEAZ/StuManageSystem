@@ -396,6 +396,8 @@ void screenSex()//按照性别筛选出符合条件的学生
 	struct Stu* item = head;
 	char findSex[5];
 	int count = 0;
+	printf("请输入要筛选出的性别：");
+	scanf("%s", &findSex);
 	if (head == NULL)
 	{
 		return;
@@ -417,7 +419,28 @@ void screenSex()//按照性别筛选出符合条件的学生
 
 void screenAge()
 {
-
+	struct Stu* item = head;
+	int findAge;
+	int count = 0;
+	printf("请输入要筛选出的年龄：");
+	scanf("%d", &findAge);
+	if (head == NULL)
+	{
+		return;
+	}
+	while (item != NULL)
+	{
+		if (2021-item->birthday.year == findAge)
+		{
+			printfStu(item);
+			printf("\n");
+			count++;
+		}
+		item = item->next;
+	}
+	printf("符合条件的学生有%d个", count);
+	system("pause");
+	return;
 }
 
 
