@@ -316,9 +316,16 @@ void load() {
 void save()
 {
 	FILE* fp = NULL;
-	fp = fopen("information.txt", "w");
+	struct Stu* item = head;
+	fp = fopen("D:\\information.txt", "w");
+	while (item != NULL) {
+		fprintf(fp,"%d\n",item->id);
+		fprintf(fp, "%s", item->name);
 
-
+		item = item->next;
+	}
+	
+	fclose(fp);
 	return;
 }
 
