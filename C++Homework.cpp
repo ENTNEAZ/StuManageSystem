@@ -287,7 +287,8 @@ void del()//删除
 		if (needToDel->id == id)
 		{
 			printStu(needToDel);
-			if (beforeDel == NULL) {
+			if (beforeDel == NULL) 
+			{
 				head = needToDel->next;
 				free(needToDel);
 			}
@@ -364,7 +365,7 @@ void searchAll()//信息统计（筛选出制定专业或性别或年龄）
 	}
 }
 
-void screenField()//按照专业筛选出符合的学生
+void screenField()//按照专业筛选出符合条件的学生
 {
 	struct Stu* item = head;
 	char findField[30];
@@ -380,6 +381,7 @@ void screenField()//按照专业筛选出符合的学生
 		if (srecmp(item->field, findField) == 0)
 		{
 			printStu(item);
+			printf("\n");
 			count++;
 		}
 		item = item->next;
@@ -389,9 +391,27 @@ void screenField()//按照专业筛选出符合的学生
 	return;
 }
 
-void screenSex()
+void screenSex()//按照性别筛选出符合条件的学生
 {
-
+	struct Stu* item = head;
+	char findSex[5];
+	int count = 0;
+	if (head == NULL)
+	{
+		return;
+	}
+	while (item != NULL)
+	{
+		if (strcmp(item->sex, findSex) == 0)
+		{
+			printfStu(item);
+			printf("\n");
+			count++;
+		}
+	}
+	printf("符合条件的学生有%d个", count);
+	system("pause");
+	return;
 }
 
 void screenAge()
