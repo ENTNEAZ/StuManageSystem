@@ -324,7 +324,7 @@ void save()
 		fprintf(fp,"%s\n", item->field)；
 		fprintf(fp, "%s\n", item->birthday);
 		fprintf(fp, "%s\n", item->address);
-		fprintf(fp, "%.1f\n", item->E_grade);
+		fprintf(fp, "%.1f\n", item->E_grade)；
 
 
 		item = item->next;
