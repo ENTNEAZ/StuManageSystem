@@ -32,35 +32,41 @@ struct Stu {
 //7. 学生信息保存
 //8. 退出
 
-struct Stu* head;
-//struct Stu* p, * q;
-struct Stu* last;
+struct Stu* head = NULL;
+struct Stu* last = NULL;
+struct Stu* p, * q;
 
-void menu();//菜单 
-void add();//新增学生信息
-void search();//学生信息搜索(按姓名) 
-void change();//修改学生信息（好像没要求写，自己加的） 
-void del();//删除学生信息
-void searchall();//学生信息统计（按专业或性别或年龄---年龄要自动计算） 
-void sort();//排序 
-void save();//学生信息保存 
+
+void menu();		//菜单 0 
+void add();			//新增学生信息 done 1. 
+void del();			//删除学生信息 done 2.
+					//TODO 导入学生信息 3.
+void search();		//学生信息搜索(按姓名)  done 4.
+void searchall();	//学生信息统计（按专业或性别或年龄---年龄要自动计算） 5.
+void sort();		//排序 6.
+void save();		//学生信息保存 7.
+
+void change();//修改学生信息（好像没要求写，自己加的）done 
+
+
 bool isExist(int id,bool output);
 
 void menu() {
 	int userChoice;
 	while (true) {
 		system("cls");
+		printf("\n");
 		printf("----------------------------学生基本信息管理系统----------------------------\n");
 		printf("\n");
+		printf("1.新增学生信息输入 \n");
+		printf("2.查询学生信息输入 \n");
+		printf("3.修改学生信息输入 \n");
+		printf("4.删除学生信息输入 \n");
+		printf("5.浏览全部信息输入 \n");
+		printf("6.学生成绩排序输入 \n");
+		printf("7.学生信息储存输入 \n");
+		printf("8.保存并安全退出   \n");
 		printf("\n");
-		printf("                            新增学生信息输入 1 \n");
-		printf("                            查询学生信息输入 2 \n");
-		printf("                            修改学生信息输入 3 \n");
-		printf("                            删除学生信息输入 4 \n");
-		printf("                            浏览全部信息输入 5 \n");
-		printf("                            学生成绩排序输入 6 \n");
-		printf("                            学生信息储存输入 7 \n");
-		printf("                            保存并安全退出   8 \n");
 		printf("-----------------------------------------------------------------------------\n");
 		printf("请输入序号：");
 		scanf("%d", &userChoice);
@@ -191,70 +197,80 @@ void search()//查询
 
 void change()//修改 
 {
-	int i;
+	struct Stu* item;
+	int id;
 	printf("输入要修改学生的id:");
-	scanf("%d", &i);
-	p = head;
-	while (p != NULL)
+	scanf("%d", &id);
+	item = head;
+	while (item != NULL)
 	{
-		if (p->id == i)
+		if (item->id == id)
 		{
 			printf("开始修改\n");
 			printf("输入学号:");
-			scanf("%d", &p->id);
+			scanf("%d", &item->id);
 			printf("输入姓名:");
-			scanf("%s", &p->name);
+			scanf("%s", &item->name);
 			printf("输入性别:");
-			scanf("%s", &p->sex);
+			scanf("%s", &item->sex);
 			printf("输入专业:");
-			scanf("%s", &p->field);
+			scanf("%s", &item->field);
 			printf("输入出生日期:");
-			scanf("%d", &p->birthday);
+			scanf("%d", &item->birthday);
 			printf("输入家庭地址:");
-			scanf("%s", &p->address);
+			scanf("%s", &item->address);
 			printf("输入英语入学成绩:");
-			scanf("%f", &p->E_grade);
+			scanf("%f", &item->E_grade);
 			printf("-----------------------------------------------");
 			printf("\n");
 			printf("修改后结果为\n");
-			printf("id: %d   姓名: %s   性别: %s   专业: %s   出生日期: %s   家庭地址: %s   英语入学成绩: %f\n", p->id, p->name, p->sex, p->field, p->birthday, p->address, p->E_grade);
-			menu();
+			printf("id: %d   姓名: %s   性别: %s   专业: %s   出生日期: %s   家庭地址: %s   英语入学成绩: %f\n", item->id, item->name, item->sex, item->field, item->birthday, item->address, item->E_grade);
+			printf("\n");
+			system("pause");
+			return;
 		}
 		else
-		{
-			q = p;
-			p = p->next;
-		}
+			item = item->next;
 	}
-	printf("id不存在！请重新输入:");
-	change();
+	printf("id不存在！返回至菜单\n");
+	system("pause");
+	return;
 }
 
 void del()//删除 
 {
-	
-	int i;
-	struct Stu* item = head;
+	int id;
+	struct Stu* needToDel,* last;
+	last = NULL;
 	printf("输入要删除学生的id:");
-	scanf("%d", &i);
-	while (item != NULL)
+	scanf("%d", &id);
+	needToDel = head;
+	while (needToDel != NULL)
 	{
-		if (item->id == i)
+		if (needToDel->id == id)
 		{
-			printf("id: %d   姓名: %s   性别: %s   专业: %s   出生日期: %s   家庭地址: %s   英语入学成绩: %f\n", item->id, item->name, item->sex, item->field, item->birthday, item->address, item->E_grade);
-			q->next = item->next;
-			item->next = NULL;
+			printf("id: %d   姓名: %s   性别: %s   专业: %s   出生日期: %s   家庭地址: %s   英语入学成绩: %f\n", needToDel->id, needToDel->name, needToDel->sex, needToDel->field, needToDel->birthday, needToDel->address, needToDel->E_grade);
+			if (last == NULL) {
+				head = needToDel->next;
+				free(needToDel);
+			}
+			else {
+				last->next = needToDel->next;
+				free(needToDel);
+			}
 			printf("该学生信息已删除\n");
+			system("pause");
 			return;
 		}
 		else
 		{
-			q = p;
-			p = p->next;
+			last = needToDel;
+			needToDel = needToDel->next;
 		}
 	}
-	printf("id不存在！请重新输入:");
-	del();
+	printf("id不存在！返回至菜单:\n");
+	system("pause");
+	return;
 }
 
 void searchall()//查找全部（遍历） 
@@ -283,8 +299,6 @@ void save()
 }
 
 int main(int argc, char* argv[]) {
-	head = NULL;
-	last = NULL;
 	menu();
 	//system("pause");
 	return 0;
