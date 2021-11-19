@@ -37,20 +37,21 @@ struct Stu* last = NULL;
 struct Stu* p, * q;
 
 
-void menu();				//菜单							0 
-void add();					//新增学生信息			done	1. 
-void del();					//删除学生信息			done	2.
-void load(bool output);		//导入学生信息			done	3.
-void search();				//学生信息搜索(按姓名)		done	4.
-void searchAll();			//学生信息统计（按专业或性别或年龄---年龄要自动计算） 5.
-void sort();				//排序							6.
-void save(bool output);		//学生信息保存			done	7.
-
-
-void change();		//修改学生信息（好像没要求写，自己加的）done 
+void menu();				//菜单													0.
+void add();					//新增学生信息			done							1. 
+void del();					//删除学生信息			done							2.
+void load(bool output);		//导入学生信息			done							3.
+void search();				//学生信息搜索(按姓名)		done						4.
+void searchAll();			//学生信息统计（按专业或性别或年龄---年龄要自动计算）	5.
+void sort();				//排序													6.
+void save(bool output);		//学生信息保存			done							7.
+void change();		//修改学生信息（好像没要求写，自己加的）done					8.
 void addRaw(int id, char name[], char sex[], char field[], int year, int month, int day, char address[], float E_grade);
-bool isExist(int id,bool output);
+bool isExist(int id,bool output);//检查输入学号是否已存在
 void printStu(struct Stu* stu);
+void screenField();
+void screenSex();
+void screenAge();
 
 void menu() {
 	int userChoice;
@@ -358,9 +359,44 @@ void searchAll()//信息统计（筛选出制定专业或性别或年龄）
 			break;
 		default ：
 			printf("无法识别，请重新输入！\n");
-		system("pause");
+			system("pause");
 		}
 	}
+}
+
+void screenField()//按照专业筛选出符合的学生
+{
+	struct Stu* item = head;
+	char findField[30];
+	int count = 0;
+	printf("请输入要筛选出的专业：");
+	scanf("%s", &findField);
+	if (head == NULL)
+	{
+		return;
+	}
+	while (item != NULL)
+	{
+		if (srecmp(item->field, findField) == 0)
+		{
+			printStu(item);
+			count++;
+		}
+		item = item->next;
+	}
+	printf("符合条件的学生有%d个", count);
+	system("pause");
+	return;
+}
+
+void screenSex()
+{
+
+}
+
+void screenAge()
+{
+
 }
 
 
