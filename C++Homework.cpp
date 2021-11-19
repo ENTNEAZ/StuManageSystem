@@ -240,8 +240,8 @@ void change()//修改
 void del()//删除 
 {
 	int id;
-	struct Stu* needToDel,* last;
-	last = NULL;
+	struct Stu* needToDel,* beforeDel;
+	beforeDel = NULL;
 	printf("输入要删除学生的id:");
 	scanf("%d", &id);
 	needToDel = head;
@@ -250,12 +250,12 @@ void del()//删除
 		if (needToDel->id == id)
 		{
 			printf("id: %d   姓名: %s   性别: %s   专业: %s   出生日期: %s   家庭地址: %s   英语入学成绩: %f\n", needToDel->id, needToDel->name, needToDel->sex, needToDel->field, needToDel->birthday, needToDel->address, needToDel->E_grade);
-			if (last == NULL) {
+			if (beforeDel == NULL) {
 				head = needToDel->next;
 				free(needToDel);
 			}
 			else {
-				last->next = needToDel->next;
+				beforeDel->next = needToDel->next;
 				free(needToDel);
 			}
 			printf("该学生信息已删除\n");
@@ -264,7 +264,7 @@ void del()//删除
 		}
 		else
 		{
-			last = needToDel;
+			beforeDel = needToDel;
 			needToDel = needToDel->next;
 		}
 	}
