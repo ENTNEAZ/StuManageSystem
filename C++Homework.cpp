@@ -246,8 +246,12 @@ void change()//修改
 			scanf("%s", &item->sex);
 			printf("输入专业:");
 			scanf("%s", &item->field);
+			printf("输入出生年份:");
+			scanf("%d", &item->birthday.year);
+			printf("输入出生月份:");
+			scanf("%d", &item->birthday.month);
 			printf("输入出生日期:");
-			scanf("%s", &item->birthday);
+			scanf("%d", &item->birthday.day);
 			printf("输入家庭地址:");
 			scanf("%s", &item->address);
 			printf("输入英语入学成绩:");
@@ -387,7 +391,7 @@ void save(bool output = false)
 }
 
 void printStu(struct Stu* stu) {
-	printf("id: %d\t姓名: %s\t性别: %s\t专业: %s\t出生日期: %d-%d-%d\t家庭地址: %s\t英语入学成绩: %f\n", stu->id, stu->name, stu->sex, stu->field, stu->birthday.year, stu->birthday.month, stu->birthday.day, stu->address, stu->E_grade);
+	printf("id: %d\t姓名: %s\t性别: %s\t专业: %s\t出生日期: %d-%d-%d\t家庭地址: %s\t英语入学成绩: %.1f\n", stu->id, stu->name, stu->sex, stu->field, stu->birthday.year, stu->birthday.month, stu->birthday.day, stu->address, stu->E_grade);
 	return;
 }
 int main(int argc, char* argv[]) {
