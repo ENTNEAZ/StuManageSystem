@@ -37,18 +37,17 @@ struct Stu* last = NULL;
 struct Stu* p, * q;
 
 
-void menu();		//菜单 0 
-void add();			//新增学生信息 done 1. 
-void del();			//删除学生信息 done 2.
-void load();			//TODO 导入学生信息 3.
-void search();		//学生信息搜索(按姓名)  done 4.
-void searchall();	//学生信息统计（按专业或性别或年龄---年龄要自动计算） 5.
-void sort();		//排序 6.
-void save();		//学生信息保存 7.
+void menu();				//菜单							0 
+void add();					//新增学生信息			done	1. 
+void del();					//删除学生信息			done	2.
+void load(bool output);		//导入学生信息			done	3.
+void search();				//学生信息搜索(按姓名)		done	4.
+void searchAll();			//学生信息统计（按专业或性别或年龄---年龄要自动计算） 5.
+void sort();				//排序							6.
+void save(bool output);		//学生信息保存			done	7.
 
 
-void change();//修改学生信息（好像没要求写，自己加的）done 
-
+void change();		//修改学生信息（好像没要求写，自己加的）done 
 void addRaw(int id, char name[], char sex[], char field[], char birthday[], char address[], float E_grade);
 bool isExist(int id,bool output);
 
@@ -59,13 +58,14 @@ void menu() {
 		printf("\n");
 		printf("----------------------------学生基本信息管理系统----------------------------\n");
 		printf("\n");
-		printf("1.新增学生信息输入 \n");
-		printf("2.查询学生信息输入 \n");
-		printf("3.修改学生信息输入 \n");
-		printf("4.删除学生信息输入 \n");
-		printf("5.浏览全部信息输入 \n");
-		printf("6.学生成绩排序输入 \n");
-		printf("7.学生信息储存输入 \n");
+		printf("0.导入学生信息（默认已自动导入）\n");
+		printf("1.新增学生信息 \n");
+		printf("2.查询学生信息 \n");
+		printf("3.修改学生信息 \n");
+		printf("4.删除学生信息 \n");
+		printf("5.浏览全部信息 \n");
+		printf("6.学生成绩排序 \n");
+		printf("7.学生信息储存 \n");
 		printf("8.保存并安全退出   \n");
 		printf("\n");
 		printf("-----------------------------------------------------------------------------\n");
@@ -73,6 +73,9 @@ void menu() {
 		scanf("%d", &userChoice);
 		switch (userChoice)
 		{
+		case 0:
+			load(true);
+			break;
 		case 1:
 			add();
 			break;
@@ -86,13 +89,13 @@ void menu() {
 			del();
 			break;
 		case 5:
-			searchall();
+			searchAll();
 			break;
 		case 6:
 			sort();
 			break;
 		case 7:
-			save();
+			save(true);
 			break;
 		case 8:
 			printf("退出");
@@ -119,7 +122,7 @@ void add()//增加
 		printf("输入专业: ");
 		scanf("%s", &field);
 		printf("输入出生日期: ");
-		scanf("%d", &birthday);
+		scanf("%s", &birthday);
 		printf("输入家庭地址: ");
 		scanf("%s", &address);
 		printf("输入英语入学成绩：");
@@ -233,7 +236,7 @@ void change()//修改
 			printf("输入专业:");
 			scanf("%s", &item->field);
 			printf("输入出生日期:");
-			scanf("%d", &item->birthday);
+			scanf("%s", &item->birthday);
 			printf("输入家庭地址:");
 			scanf("%s", &item->address);
 			printf("输入英语入学成绩:");
@@ -290,30 +293,58 @@ void del()//删除
 	return;
 }
 
-void searchall()//查找全部（遍历） 
+void searchAll()//查找全部（遍历） 
 {
+	printf("\n以下是数据库内全部信息：\n");
 	struct Stu* item = head;
 	if (head == NULL)
 	{
 		return;
 	}
-	item = head->next;
 	while (item != NULL)
 	{
 		printf("id: %d   姓名: %s   性别: %s   专业: %s   出生日期: %s   家庭地址: %s   英语入学成绩: %f\n", item->id, item->name, item->sex, item->field, item->birthday, item->address, item->E_grade);
 		item = item->next;
 	}
 	printf("\n");
+	system("pause");
 }
 
 void sort()
 {
 
 }
-void load() {
+void load(bool output = false) {
+	FILE* fp = NULL;
+	char name[15], sex[5], field[30], birthday[20], address[100];
+	float E_grade;
+	int id;
+	bool haveNext = true;
+	fp = fopen("D:\\information.txt", "r");
+
+	while (haveNext)
+	{
+		fscanf(fp, "%d\n", &id);
+		fscanf(fp, "%s\n", &name);
+		fscanf(fp, "%s\n", &sex);
+		fscanf(fp, "%s\n", &field);
+		fscanf(fp, "%s\n", &birthday);
+		fscanf(fp, "%s\n", &address);
+		haveNext = (fscanf(fp, "%f\n", &E_grade) == -1)?false:true;//当返回-1时代表没有内容了
+		if (haveNext)
+			addRaw(id,name,sex,field,birthday,address,E_grade);
+	}
+
+	fclose(fp);
+	if (output) {
+		printf("导入成功\n");
+		system("pause");
+	}
+		
+
 	return;
 }
-void save()
+void save(bool output = false)
 {
 	FILE* fp = NULL;
 	struct Stu* item = head;
@@ -321,6 +352,7 @@ void save()
 	while (item != NULL) {
 		fprintf(fp,"%d\n",item->id);
 		fprintf(fp,"%s\n", item->name);
+		fprintf(fp, "%s\n", item->sex);
 		fprintf(fp,"%s\n", item->field);
 		fprintf(fp, "%s\n", item->birthday);
 		fprintf(fp, "%s\n", item->address);
@@ -331,10 +363,16 @@ void save()
 	}
 	
 	fclose(fp);
+	if (output) {
+		printf("导出成功\n");
+		system("pause");
+	}
+
 	return;
 }
 
 int main(int argc, char* argv[]) {
+	load();
 	menu();
 	//system("pause");
 	return 0;
