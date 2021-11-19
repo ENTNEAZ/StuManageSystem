@@ -326,6 +326,7 @@ void searchAll()//查找全部（遍历）
 	}
 	printf("\n");
 	system("pause");
+	return;
 }
 
 void sort()
