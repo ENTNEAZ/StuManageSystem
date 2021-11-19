@@ -450,10 +450,9 @@ void sort()
 	end = NULL;
 	prePoint = head;
 	curPoint = prePoint->next;
-	nextPoint = curPoint->next;
+	nextPoint = curPoint->next;//初始化三个指针 ; 判断是否到达结束位置 ; 三个指针集体后移
 	while (head->next != end)
 	{
-		//初始化三个指针 ; 判断是否到达结束位置 ; 三个指针集体后移
 		for (; nextPoint != end; prePoint = prePoint->next, curPoint = curPoint->next, nextPoint = nextPoint->next)
 		{
 			if (curPoint->E_grade < nextPoint->E_grade) //从大到小
@@ -461,15 +460,13 @@ void sort()
 				prePoint->next = nextPoint;
 				curPoint->next = nextPoint->next;
 				nextPoint->next = curPoint;
-
 				//此时nextPoint变前一项，curPoint变后一项  交换nextPoint, curPoint
 				struct Stu* tempPoint = curPoint;
 				curPoint = nextPoint; 
 				nextPoint = tempPoint;
 			}
 		}
-		//一轮循环结束 最后一项已经排好 end提前一项 (冒泡原理)
-		end = curPoint;
+		end = curPoint;//一轮循环结束 最后一项已经排好 end提前一项 (冒泡原理)
 	}
 }
 
