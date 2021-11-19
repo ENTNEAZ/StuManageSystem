@@ -446,7 +446,7 @@ void screenAge()
 
 void sort()
 {
-	struct Stu* prePoint, curPoint, nextPoint, end;//pre前一项 cur当前项 next后一项 end控制循环次数(优化冒泡)
+	struct Stu* prePoint, *curPoint, *nextPoint, *end;//pre前一项 cur当前项 next后一项 end控制循环次数(优化冒泡)
 	end = NULL;
 	prePoint = head;
 	curPoint = prePoint->next;
@@ -454,7 +454,7 @@ void sort()
 	while (head->next != end)
 	{
 		//初始化三个指针 ; 判断是否到达结束位置 ; 三个指针集体后移
-		for (; next != end; prePoint = prePoint->next, curPoint = curPoint->next, nextPoint = nextPoint->next)
+		for (; nextPoint != end; prePoint = prePoint->next, curPoint = curPoint->next, nextPoint = nextPoint->next)
 		{
 			if (curPoint->E_grade < nextPoint->E_grade) //从大到小
 			{
