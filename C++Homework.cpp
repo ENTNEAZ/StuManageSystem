@@ -2,19 +2,19 @@
 #include <stdlib.h>
 #include <string.h>
 
-/*struct Date
+struct Date
 {
 	int year;
 	int month;
 	int day;
-};*/
+};
 
 struct Stu {
 	int id;//学号 
 	char name[15];//姓名 
 	char sex[5]; //性别 
 	char field[30];//专业 
-	char birthday[20];//出生日期 
+	struct Date birthday;//出生日期 
 	char address[100];//家庭地址 
 	float E_grade;//英语入学成绩 
 	struct Stu* next;
@@ -37,20 +37,20 @@ struct Stu* last = NULL;
 struct Stu* p, * q;
 
 
-void menu();		//菜单 0 
-void add();			//新增学生信息 done 1. 
-void del();			//删除学生信息 done 2.
-void load();			//TODO 导入学生信息 3.
-void search();		//学生信息搜索(按姓名)  done 4.
-void searchall();	//学生信息统计（按专业或性别或年龄---年龄要自动计算） 5.
-void sort();		//排序 6.
-void save();		//学生信息保存 7.
+void menu();				//菜单							0 
+void add();					//新增学生信息			done	1. 
+void del();					//删除学生信息			done	2.
+void load(bool output);		//导入学生信息			done	3.
+void search();				//学生信息搜索(按姓名)		done	4.
+void searchAll();			//学生信息统计（按专业或性别或年龄---年龄要自动计算） 5.
+void sort();				//排序							6.
+void save(bool output);		//学生信息保存			done	7.
 
 
-void change();//修改学生信息（好像没要求写，自己加的）done 
-
-void addRaw(int id, char name[], char sex[], char field[], char birthday[], char address[], float E_grade);
-bool isExist(int id,bool output);
+void change();		//修改学生信息（好像没要求写，自己加的）done 
+void addRaw(int id, char name[], char sex[], char field[], int year, int month, int day, char address[], float E_grade);
+bool isExist(int id, bool output);
+void printStu(struct Stu* stu);
 
 void menu() {
 	int userChoice;
@@ -59,13 +59,14 @@ void menu() {
 		printf("\n");
 		printf("----------------------------学生基本信息管理系统----------------------------\n");
 		printf("\n");
-		printf("1.新增学生信息输入 \n");
-		printf("2.查询学生信息输入 \n");
-		printf("3.修改学生信息输入 \n");
-		printf("4.删除学生信息输入 \n");
-		printf("5.浏览全部信息输入 \n");
-		printf("6.学生成绩排序输入 \n");
-		printf("7.学生信息储存输入 \n");
+		printf("0.导入学生信息（默认已自动导入）\n");
+		printf("1.新增学生信息 \n");
+		printf("2.查询学生信息 \n");
+		printf("3.修改学生信息 \n");
+		printf("4.删除学生信息 \n");
+		printf("5.浏览全部信息 \n");
+		printf("6.学生成绩排序 \n");
+		printf("7.学生信息储存 \n");
 		printf("8.保存并安全退出   \n");
 		printf("\n");
 		printf("-----------------------------------------------------------------------------\n");
@@ -73,6 +74,9 @@ void menu() {
 		scanf("%d", &userChoice);
 		switch (userChoice)
 		{
+		case 0:
+			load(true);
+			break;
 		case 1:
 			add();
 			break;
@@ -86,18 +90,21 @@ void menu() {
 			del();
 			break;
 		case 5:
-			searchall();
+			searchAll();
 			break;
 		case 6:
 			sort();
 			break;
 		case 7:
-			save();
+			save(true);
 			break;
 		case 8:
 			printf("退出");
+			return;
+			break;
 		default:
-			printf("重新输入\n");
+			printf("无法识别，请重新输入\n");
+			system("pause");
 		}
 	}
 }
@@ -109,23 +116,29 @@ void add()//增加
 	scanf("%d", &id);
 	if (isExist(id, true)) {
 		add();//已经存在此人 递归再次输入
-	} else {
+	}
+	else {
 		char name[15], sex[5], field[30], birthday[20], address[100];
 		float E_grade;
+		int year, month, day;
 		printf("输入姓名: ");
 		scanf("%s", &name);
 		printf("输入性别: ");
 		scanf("%s", &sex);
 		printf("输入专业: ");
 		scanf("%s", &field);
-		printf("输入出生日期: ");
-		scanf("%d", &birthday)；
+		printf("请输入出生年份: ");
+		scanf("%d", &year);
+		printf("请输入出生月份: ");
+		scanf("%d", &month);
+		printf("请输入出生日期: ");
+		scanf("%d", &day);
 		printf("输入家庭地址: ");
 		scanf("%s", &address);
 		printf("输入英语入学成绩：");
 		scanf("%f", &E_grade);
 
-		addRaw(id, name, sex, field, birthday, address, E_grade);
+		addRaw(id, name, sex, field, year, month, day, address, E_grade);
 		printf("添加成功！\n");
 		system("pause");
 	}
@@ -133,14 +146,16 @@ void add()//增加
 }
 
 
-void addRaw(int id,char name[],char sex[],char field[],char birthday[],char address[],float E_grade) {
+void addRaw(int id, char name[], char sex[], char field[], int year, int month, int day, char address[], float E_grade) {
 	struct Stu* toAdd = (struct Stu*)malloc(sizeof(struct Stu));
 	struct Stu* a = head;
 	toAdd->id = id;
 	strcpy(toAdd->name, name);
 	strcpy(toAdd->sex, sex);
 	strcpy(toAdd->field, field);
-	strcpy(toAdd->birthday, birthday);
+	toAdd->birthday.year = year;
+	toAdd->birthday.month = month;
+	toAdd->birthday.day = day;
 	strcpy(toAdd->address, address);
 	toAdd->E_grade = E_grade;
 	toAdd->next = NULL;
@@ -156,7 +171,7 @@ void addRaw(int id,char name[],char sex[],char field[],char birthday[],char addr
 	return;
 }
 
-bool isExist(int id,bool output = false)//查重 output为是否输出已经存在的信息
+bool isExist(int id, bool output = false)//查重 output为是否输出已经存在的信息
 {
 	if (head == NULL)
 		return false;
@@ -175,14 +190,14 @@ bool isExist(int id,bool output = false)//查重 output为是否输出已经存�
 		if (item->id == id)
 		{
 			if (output) {
-				printf("id: %d   姓名: %s   性别: %s   专业: %s   \n", item->id, item->name,item->sex, item->field);
+				printf("id: %d   姓名: %s   性别: %s   专业: %s   \n", item->id, item->name, item->sex, item->field);
 				printf("学号已存在，请重新输入\n");
 				printf("\n");
 			}
 			return true;
 		}
 		else
-			item = item -> next;
+			item = item->next;
 	}
 	return false;
 }
@@ -197,9 +212,9 @@ void search()//查询
 	printf("下面是数据库内有关\"%s\"的信息\n\n", inputName);
 	while (item != NULL)
 	{
-		if (strcmp(item->name,inputName) == 0)
+		if (strcmp(item->name, inputName) == 0)
 		{
-			printf("id: %d   姓名: %s   性别: %s   专业: %s   出生日期: %s   家庭地址: %s   英语入学成绩: %f\n", item->id, item->name, item->sex, item->field, item->birthday, item->address, item->E_grade);
+			printStu(item);
 			//防止重名 继续执行
 			item = item->next;
 		}
@@ -233,7 +248,7 @@ void change()//修改
 			printf("输入专业:");
 			scanf("%s", &item->field);
 			printf("输入出生日期:");
-			scanf("%d", &item->birthday);
+			scanf("%s", &item->birthday);
 			printf("输入家庭地址:");
 			scanf("%s", &item->address);
 			printf("输入英语入学成绩:");
@@ -241,7 +256,7 @@ void change()//修改
 			printf("-----------------------------------------------");
 			printf("\n");
 			printf("修改后结果为\n");
-			printf("id: %d   姓名: %s   性别: %s   专业: %s   出生日期: %s   家庭地址: %s   英语入学成绩: %f\n", item->id, item->name, item->sex, item->field, item->birthday, item->address, item->E_grade);
+			printStu(item);
 			printf("\n");
 			system("pause");
 			return;
@@ -257,7 +272,7 @@ void change()//修改
 void del()//删除 
 {
 	int id;
-	struct Stu* needToDel,* beforeDel;
+	struct Stu* needToDel, * beforeDel;
 	beforeDel = NULL;
 	printf("输入要删除学生的id:");
 	scanf("%d", &id);
@@ -266,7 +281,7 @@ void del()//删除
 	{
 		if (needToDel->id == id)
 		{
-			printf("id: %d   姓名: %s   性别: %s   专业: %s   出生日期: %s   家庭地址: %s   英语入学成绩: %f\n", needToDel->id, needToDel->name, needToDel->sex, needToDel->field, needToDel->birthday, needToDel->address, needToDel->E_grade);
+			printStu(needToDel);
 			if (beforeDel == NULL) {
 				head = needToDel->next;
 				free(needToDel);
@@ -290,51 +305,102 @@ void del()//删除
 	return;
 }
 
-void searchall()//查找全部（遍历） 
+void searchAll()//查找全部（遍历） 
 {
+	printf("\n以下是数据库内全部信息：\n");
 	struct Stu* item = head;
+	char informationFind[30];
+	printf("请输入要筛选出的专业：");
+	scanf("%s", &informationFind);
 	if (head == NULL)
 	{
 		return;
 	}
-	item = head->next;
 	while (item != NULL)
 	{
-		printf("id: %d   姓名: %s   性别: %s   专业: %s   出生日期: %s   家庭地址: %s   英语入学成绩: %f\n", item->id, item->name, item->sex, item->field, item->birthday, item->address, item->E_grade);
-		item = item->next;
+//		printStu(item);
+//		item = item->next;
+		if (strcmp(item->field, informationFind) == 0)
+		{
+
+		}
+
 	}
 	printf("\n");
+	system("pause");
 }
 
 void sort()
 {
 
 }
-void load() {
+void load(bool output = false) {
+	FILE* fp = NULL;
+	char name[15], sex[5], field[30], birthday[20], address[100];
+	float E_grade;
+	int id, year, month, day;
+	bool haveNext = true;
+	fp = fopen("information.txt", "r");
+
+	while (haveNext && fp != NULL)
+	{
+		fscanf(fp, "%d\n", &id);
+		fscanf(fp, "%s\n", &name);
+		fscanf(fp, "%s\n", &sex);
+		fscanf(fp, "%s\n", &field);
+		fscanf(fp, "%d\n", &year);
+		fscanf(fp, "%d\n", &month);
+		fscanf(fp, "%d\n", &day);
+		fscanf(fp, "%s\n", &address);
+		haveNext = (fscanf(fp, "%f\n", &E_grade) == -1) ? false : true;//当返回-1时代表没有内容了
+		if (haveNext)
+			addRaw(id, name, sex, field, year, month, day, address, E_grade);
+	}
+
+	fp != NULL ? fclose(fp) : NULL;
+	if (output) {
+		printf("导入成功\n");
+		system("pause");
+	}
+
+
 	return;
 }
-void save()
+void save(bool output = false)
 {
 	FILE* fp = NULL;
 	struct Stu* item = head;
-	fp = fopen("D:\\information.txt", "w");
-	while (item != NULL) {
-		fprintf(fp,"%d\n",item->id);
-		fprintf(fp,"%s\n", item->name);
-		fprintf(fp,"%s\n", item->field)；
-		fprintf(fp, "%s\n", item->birthday);
+	fp = fopen("information.txt", "w");
+	while (item != NULL && fp != NULL) {
+		fprintf(fp, "%d\n", item->id);
+		fprintf(fp, "%s\n", item->name);
+		fprintf(fp, "%s\n", item->sex);
+		fprintf(fp, "%s\n", item->field);
+		fprintf(fp, "%d\n", item->birthday.year);
+		fprintf(fp, "%d\n", item->birthday.month);
+		fprintf(fp, "%d\n", item->birthday.day);
 		fprintf(fp, "%s\n", item->address);
-		fprintf(fp, "%.1f\n", item->E_grade)；
+		fprintf(fp, "%.1f\n", item->E_grade);
 
 
 		item = item->next;
 	}
-	
-	fclose(fp);
+
+	fp != NULL ? fclose(fp) : NULL;
+	if (output) {
+		printf("导出成功\n");
+		system("pause");
+	}
+
 	return;
 }
 
+void printStu(struct Stu* stu) {
+	printf("id: %d\t姓名: %s\t性别: %s\t专业: %s\t出生日期: %d-%d-%d\t家庭地址: %s\t英语入学成绩: %f\n", stu->id, stu->name, stu->sex, stu->field, stu->birthday.year, stu->birthday.month, stu->birthday.day, stu->address, stu->E_grade);
+	return;
+}
 int main(int argc, char* argv[]) {
+	load();
 	menu();
 	//system("pause");
 	return 0;
