@@ -376,7 +376,6 @@ void screenField()//按照专业筛选出符合条件的学生
 		if (strcmp(item->field, findField) == 0)
 		{
 			printStu(item);
-			printf("\n");
 			count++;
 		}
 		item = item->next;
@@ -402,7 +401,6 @@ void screenSex()//按照性别筛选出符合条件的学生
 		if (strcmp(item->sex, findSex) == 0)
 		{
 			printStu(item);
-			printf("\n");
 			count++;
 		}
 		item = item->next;
@@ -429,7 +427,6 @@ void screenAge()//按照年龄筛选出符合条件的学生
 		if ((localtime(&t)->tm_year + 1900)-item->birthday.year == findAge)
 		{
 			printStu(item);
-			printf("\n");
 			count++;
 		}
 		item = item->next;
@@ -462,14 +459,14 @@ void sort(bool output = false)//按照英语成绩排序
 	if (curPoint == NULL || curPoint->next == NULL)
 		return;//一个都没有或者就一个 干嘛欺骗我的感情
 	//现在保证至少有两个了
-	nextPoint = curPoint->next;//初始化三个指针 ; 判断是否到达结束位置 ; 三个指针集体后移
+	nextPoint = curPoint->next;//初始化三个指针 ; 
 	while (head->next != end)
 	{
 		prePoint = NULL;
 		curPoint = head;
 		nextPoint = curPoint->next;
 		for (; nextPoint != end; prePoint = prePoint == NULL?head:prePoint->next, curPoint = curPoint->next, nextPoint = nextPoint->next)
-		{
+		{	//判断是否到达结束位置 ; 
 
 			if (curPoint->E_grade < nextPoint->E_grade) //从大到小
 			{
