@@ -444,19 +444,28 @@ void screenAge()//按照年龄筛选出符合条件的学生
 
 void sort()//按照英语成绩排序
 {
-	struct Stu* prePoint, *curPoint, *nextPoint, *end,*tempPoint;//pre前一项 cur当前项 next后一项 end控制循环次数(优化冒泡)
+	struct Stu* prePoint, * curPoint, * nextPoint, * end, * tempPoint;//pre前一项 cur当前项 next后一项 end控制循环次数(优化冒泡)
 	end = NULL;
-	prePoint = head;
-	curPoint = prePoint->next;
+	prePoint = NULL;
+	curPoint = head;
+	if (curPoint == NULL || curPoint->next == NULL)
+		return;//一个都没有或者就一个 干嘛欺骗我的感情
+	//现在保证至少有两个了
 	nextPoint = curPoint->next;//初始化三个指针 ; 判断是否到达结束位置 ; 三个指针集体后移
-	if (nextPoint == NULL)
+	if (nextPoint->next == NULL)//只有两个元素进行排序
 	{
+		if (prePoint->E_grade < curPoint->E_grade) {
+			head = curPoint;
+			curPoint->next = prePoint;
+			prePoint->next = NULL;
+		}
 		return;
 	}
 	while (head->next != end)
 	{
 		for (; nextPoint != end; prePoint = prePoint->next, curPoint = curPoint->next, nextPoint = nextPoint->next)
 		{
+
 			if (curPoint->E_grade < nextPoint->E_grade) //从大到小
 			{
 				prePoint->next = nextPoint;
