@@ -1,6 +1,7 @@
 ﻿#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 
 struct Date
 {
@@ -41,11 +42,11 @@ void menu();				//菜单													0.
 void add();					//新增学生信息											1.done 
 void del();					//删除学生信息											2.done
 void load(bool output);		//导入学生信息											3.done
-void search();				//学生信息搜索(按姓名)									4.done
-void searchAll();			//学生信息统计（按专业或性别或年龄---年龄要自动计算）	5.done
-void sort();				//排序													6.done
+void search();				//学生信息搜索(按姓名)										4.done
+void searchAll();			//学生信息统计（按专业或性别或年龄---年龄要自动计算）			5.done
+void sort(bool output);		//排序													6.done
 void save(bool output);		//学生信息保存											7.done
-void change();		//修改学生信息（好像没要求写，自己加的）						8.done
+void change();				//修改学生信息（好像没要求写，自己加的）						8.done
 
 void addRaw(int id, char name[], char sex[], char field[], int year, int month, int day, char address[], float E_grade);//赋值
 bool isExist(int id,bool output);//检查输入学号是否已存在
@@ -53,6 +54,7 @@ void printStu(struct Stu* stu);//输出学生信息
 void screenField();//按照专业筛选学生
 void screenSex();//按照性别筛选学生
 void screenAge();//按照年龄筛选学生
+void printAll();//输出全部信息
 
 void menu() //菜单
 {
@@ -96,7 +98,7 @@ void menu() //菜单
 			searchAll();
 			break;
 		case 6:
-			sort();
+			sort(true);
 			break;
 		case 7:
 			save(true);
@@ -147,7 +149,6 @@ void add()//增加
 	}
 	return;
 }
-
 
 void addRaw(int id,char name[],char sex[],char field[],int year,int month,int day,char address[],float E_grade) //赋值
 {
@@ -244,6 +245,7 @@ void change()//修改
 	{
 		if (item->id == id)
 		{
+			printStu(item);
 			printf("开始修改\n");
 			printf("输入学号:");
 			scanf("%d", &item->id);
@@ -321,14 +323,16 @@ void searchAll()//信息统计（筛选出制定专业或性别或年龄）
 	int userChoice;
 	while (true)
 	{
+		system("cls");
 		printf("\n");
 		printf("----------------------------学生信息统计系统----------------------------");
 		printf("\n");
-		printf("按照专业筛选输入1\n");
-		printf("按照性别筛选输入2\n");
-		printf("按照年龄筛选输入3\n");
+		printf("1.按照专业筛选\n");
+		printf("2.按照性别筛选\n");
+		printf("3.按照年龄筛选\n");
+		printf("4.输出全部学生信息\n");
 		printf("\n");
-		printf("返回主菜单输入4\n");
+		printf("5.返回主菜单\n");
 		printf("\n");
 		printf("------------------------------------------------------------------------");
 		printf("\n");
@@ -346,6 +350,9 @@ void searchAll()//信息统计（筛选出制定专业或性别或年龄）
 			screenAge();
 			break;
 		case 4:
+			printAll();
+			break;
+		case 5:
 			return;
 			break;
 		default :
@@ -363,10 +370,7 @@ void screenField()//按照专业筛选出符合条件的学生
 	findField[29] = '\0';
 	printf("请输入要筛选出的专业：");
 	scanf("%s", &findField);
-	if (head == NULL)
-	{
-		return;
-	}
+	printf("\n以下是数据库中的信息：\n");
 	while (item != NULL)
 	{
 		if (strcmp(item->field, findField) == 0)
@@ -392,10 +396,7 @@ void screenSex()//按照性别筛选出符合条件的学生
 	findSex[4] = '\0';
 	printf("请输入要筛选出的性别：");
 	scanf("%s", &findSex);
-	if (head == NULL)
-	{
-		return;
-	}
+	printf("\n以下是数据库中的信息：\n");
 	while (item != NULL)
 	{
 		if (strcmp(item->sex, findSex) == 0)
@@ -418,15 +419,14 @@ void screenAge()//按照年龄筛选出符合条件的学生
 	struct Stu* item = head;
 	int findAge;
 	int count = 0;
+	time_t  t;
+	time(&t);
 	printf("请输入要筛选出的年龄：");
 	scanf("%d", &findAge);
-	if (head == NULL)
-	{
-		return;
-	}
+	printf("\n以下是数据库中的信息：\n");
 	while (item != NULL)
 	{
-		if (2021-item->birthday.year == findAge)
+		if ((localtime(&t)->tm_year + 1900)-item->birthday.year == findAge)
 		{
 			printStu(item);
 			printf("\n");
@@ -441,8 +441,19 @@ void screenAge()//按照年龄筛选出符合条件的学生
 	return;
 }
 
+void printAll() {
+	struct Stu* item = head;
+	printf("以下是数据库中所有人的信息：\n");
+	while (item != NULL) {
+		printStu(item);
+		item = item->next;
+	}
+	printf("\n");
+	system("pause");
+	return;
+}
 
-void sort()//按照英语成绩排序
+void sort(bool output = false)//按照英语成绩排序
 {
 	struct Stu* prePoint, * curPoint, * nextPoint, * end, * tempPoint;//pre前一项 cur当前项 next后一项 end控制循环次数(优化冒泡)
 	end = NULL;
@@ -452,33 +463,40 @@ void sort()//按照英语成绩排序
 		return;//一个都没有或者就一个 干嘛欺骗我的感情
 	//现在保证至少有两个了
 	nextPoint = curPoint->next;//初始化三个指针 ; 判断是否到达结束位置 ; 三个指针集体后移
-	if (nextPoint->next == NULL)//只有两个元素进行排序
-	{
-		if (prePoint->E_grade < curPoint->E_grade) {
-			head = curPoint;
-			curPoint->next = prePoint;
-			prePoint->next = NULL;
-		}
-		return;
-	}
 	while (head->next != end)
 	{
-		for (; nextPoint != end; prePoint = prePoint->next, curPoint = curPoint->next, nextPoint = nextPoint->next)
+		prePoint = NULL;
+		curPoint = head;
+		nextPoint = curPoint->next;
+		for (; nextPoint != end; prePoint = prePoint == NULL?head:prePoint->next, curPoint = curPoint->next, nextPoint = nextPoint->next)
 		{
 
 			if (curPoint->E_grade < nextPoint->E_grade) //从大到小
 			{
-				prePoint->next = nextPoint;
-				curPoint->next = nextPoint->next;
-				nextPoint->next = curPoint;
-				
+				if (prePoint != NULL) {
+					prePoint->next = nextPoint;
+					curPoint->next = nextPoint->next;
+					nextPoint->next = curPoint;
+				}	
+				else //pre是NULL说明操作的是head
+				{
+					head = nextPoint;
+					curPoint->next = nextPoint->next;
+					head->next = curPoint;
+				}
 				tempPoint = curPoint;//此时nextPoint变前一项，curPoint变后一项  交换nextPoint, curPoint
-				curPoint = nextPoint; 
+				curPoint = nextPoint;
 				nextPoint = tempPoint;
+				
 			}
 		}
 		end = curPoint;//一轮循环结束 最后一项已经排好 end提前一项 (冒泡原理)
 	}
+	if (output) {
+		printf("排序成功，已按照英语成绩进行排序\n");
+		system("pause");
+	}
+		
 }
 
 void load(bool output = false) //
@@ -544,7 +562,7 @@ void save(bool output = false)//文件存放
 
 void printStu(struct Stu* stu) //输出学生信息
 {
-	printf("学号: %d\t姓名: %s\t性别: %s\t专业: %s\t出生日期: %d-%d-%d\t家庭地址: %s\t英语入学成绩: %.1f\n", stu->id, stu->name, stu->sex, stu->field, stu->birthday.year, stu->birthday.month, stu->birthday.day, stu->address, stu->E_grade);
+	printf("学号: %-10d姓名: %-10s性别: %-10s专业: %-15s出生日期: %-4d-%-2d-%-5d家庭地址: %-20s英语入学成绩: %.1f\n", stu->id, stu->name, stu->sex, stu->field, stu->birthday.year, stu->birthday.month, stu->birthday.day, stu->address, stu->E_grade);
 	return;
 }
 
