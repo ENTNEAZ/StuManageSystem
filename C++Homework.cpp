@@ -396,7 +396,9 @@ void screenField()//按照专业筛选出符合条件的学生
 		}
 		item = item->next;
 	}
+	printf("\n");
 	printf("符合条件的学生有%d个\n", count);
+	printf("----------------------------------------------------------\n");
 	system("pause");
 	return;
 }
@@ -422,7 +424,9 @@ void screenSex()//按照性别筛选出符合条件的学生
 		}
 		item = item->next;
 	}
+	printf("\n");
 	printf("符合条件的学生有%d个\n", count);
+	printf("----------------------------------------------------------\n");
 	system("pause");
 	return;
 }
@@ -448,7 +452,9 @@ void screenAge()//按照年龄筛选出符合条件的学生
 		}
 		item = item->next;
 	}
+	printf("\n");
 	printf("符合条件的学生有%d个\n", count);
+	printf("----------------------------------------------------------\n");
 	system("pause");
 	return;
 }
