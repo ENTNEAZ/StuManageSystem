@@ -10,13 +10,13 @@ struct Date
 };
 
 struct Stu {
-	int id;//学号 
-	char name[15];//姓名 
-	char sex[5]; //性别 
-	char field[30];//专业 
-	struct Date birthday;//出生日期 
-	char address[100];//家庭地址 
-	float E_grade;//英语入学成绩 
+	int id;						//学号 
+	char name[15];				//姓名 
+	char sex[5];				//性别 
+	char field[30];				//专业 
+	struct Date birthday;		//出生日期 
+	char address[100];			//家庭地址 
+	float E_grade;				//英语入学成绩 
 	struct Stu* next;
 };
 
@@ -34,29 +34,31 @@ struct Stu {
 
 struct Stu* head = NULL;
 struct Stu* last = NULL;
-struct Stu* p, * q;
+//struct Stu* p, * q;
 
 
 void menu();				//菜单													0.
-void add();					//新增学生信息			done							1. 
-void del();					//删除学生信息			done							2.
-void load(bool output);		//导入学生信息			done							3.
-void search();				//学生信息搜索(按姓名)		done						4.
-void searchAll();			//学生信息统计（按专业或性别或年龄---年龄要自动计算）	5.
-void sort();				//排序													6.
-void save(bool output);		//学生信息保存			done							7.
-void change();		//修改学生信息（好像没要求写，自己加的）done					8.
-void addRaw(int id, char name[], char sex[], char field[], int year, int month, int day, char address[], float E_grade);
-bool isExist(int id,bool output);//检查输入学号是否已存在
-void printStu(struct Stu* stu);
-void screenField();
-void screenSex();
-void screenAge();
+void add();					//新增学生信息											1.done 
+void del();					//删除学生信息											2.done
+void load(bool output);		//导入学生信息											3.done
+void search();				//学生信息搜索(按姓名)									4.done
+void searchAll();			//学生信息统计（按专业或性别或年龄---年龄要自动计算）	5.done
+void sort();				//排序													6.done
+void save(bool output);		//学生信息保存											7.done
+void change();		//修改学生信息（好像没要求写，自己加的）						8.done
 
-void menu() {
+void addRaw(int id, char name[], char sex[], char field[], int year, int month, int day, char address[], float E_grade);//赋值
+bool isExist(int id,bool output);//检查输入学号是否已存在
+void printStu(struct Stu* stu);//输出学生信息
+void screenField();//按照专业筛选学生
+void screenSex();//按照性别筛选学生
+void screenAge();//按照年龄筛选学生
+
+void menu() //菜单
+{
 	int userChoice;
 	while (true) {
-		system("cls");
+		system("cls");//清屏
 		printf("\n");
 		printf("----------------------------学生基本信息管理系统----------------------------\n");
 		printf("\n");
@@ -147,7 +149,8 @@ void add()//增加
 }
 
 
-void addRaw(int id,char name[],char sex[],char field[],int year,int month,int day,char address[],float E_grade) {
+void addRaw(int id,char name[],char sex[],char field[],int year,int month,int day,char address[],float E_grade) //赋值
+{
 	struct Stu* toAdd = (struct Stu*)malloc(sizeof(struct Stu));
 	struct Stu* a = head;
 	toAdd->id = id;
@@ -160,7 +163,6 @@ void addRaw(int id,char name[],char sex[],char field[],int year,int month,int da
 	strcpy(toAdd->address, address);
 	toAdd->E_grade = E_grade;
 	toAdd->next = NULL;
-
 	if (head == NULL) {
 		head = toAdd;
 		last = head;//last指向最后一个元素
@@ -417,7 +419,7 @@ void screenSex()//按照性别筛选出符合条件的学生
 	return;
 }
 
-void screenAge()
+void screenAge()//按照年龄筛选出符合条件的学生
 {
 	struct Stu* item = head;
 	int findAge;
@@ -444,13 +446,17 @@ void screenAge()
 }
 
 
-void sort()
+void sort()//按照英语成绩排序
 {
 	struct Stu* prePoint, *curPoint, *nextPoint, *end;//pre前一项 cur当前项 next后一项 end控制循环次数(优化冒泡)
 	end = NULL;
 	prePoint = head;
 	curPoint = prePoint->next;
 	nextPoint = curPoint->next;//初始化三个指针 ; 判断是否到达结束位置 ; 三个指针集体后移
+	if (head == NULL)
+	{
+		return;
+	}
 	while (head->next != end)
 	{
 		for (; nextPoint != end; prePoint = prePoint->next, curPoint = curPoint->next, nextPoint = nextPoint->next)
@@ -470,7 +476,8 @@ void sort()
 	}
 }
 
-void load(bool output = false) {
+void load(bool output = false) //
+{
 	FILE* fp = NULL;
 	char name[15], sex[5], field[30], birthday[20], address[100];
 	float E_grade;
@@ -521,17 +528,16 @@ void save(bool output = false)//文件存放
 
 		item = item->next;
 	}
-	
 	fp != NULL ? fclose(fp) : NULL;
 	if (output) {
 		printf("导出成功\n");
 		system("pause");
 	}
-
 	return;
 }
 
-void printStu(struct Stu* stu) {
+void printStu(struct Stu* stu) //输出学生信息
+{
 	printf("id: %d\t姓名: %s\t性别: %s\t专业: %s\t出生日期: %d-%d-%d\t家庭地址: %s\t英语入学成绩: %.1f\n", stu->id, stu->name, stu->sex, stu->field, stu->birthday.year, stu->birthday.month, stu->birthday.day, stu->address, stu->E_grade);
 	return;
 }
