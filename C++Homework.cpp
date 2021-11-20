@@ -115,7 +115,7 @@ void menu() //菜单
 void add()//增加 
 {
 	int id;
-	printf("输入id：");
+	printf("输入学号：");
 	scanf("%d", &id);
 	if (isExist(id, true)) {
 		add();//已经存在此人 递归再次输入
@@ -185,7 +185,7 @@ bool isExist(int id, bool output = false)//查重 output为是否输出已经存
 	if (item->id == id)
 	{
 		if (output) {
-			printf("id: %d   姓名: %s   性别: %s   专业: %s   \n", item->id, item->name, item->sex, item->field);
+			printf("学号: %d   姓名: %s   性别: %s   专业: %s   \n", item->id, item->name, item->sex, item->field);
 			printf("学号已存在，请重新输入\n");
 			printf("\n");
 		}
@@ -196,7 +196,7 @@ bool isExist(int id, bool output = false)//查重 output为是否输出已经存
 		if (item->id == id)
 		{
 			if (output) {
-				printf("id: %d   姓名: %s   性别: %s   专业: %s   \n", item->id, item->name, item->sex, item->field);
+				printf("学号: %d   姓名: %s   性别: %s   专业: %s   \n", item->id, item->name, item->sex, item->field);
 				printf("学号已存在，请重新输入\n");
 				printf("\n");
 			}
@@ -237,7 +237,7 @@ void change()//修改
 {
 	struct Stu* item;
 	int id;
-	printf("输入要修改学生的id:");
+	printf("输入要修改学生的学号:");
 	scanf("%d", &id);
 	item = head;
 	while (item != NULL)
@@ -274,7 +274,7 @@ void change()//修改
 		else
 			item = item->next;
 	}
-	printf("id不存在！返回至菜单\n");
+	printf("学号不存在！返回至菜单\n");
 	system("pause");
 	return;
 }
@@ -284,7 +284,7 @@ void del()//删除
 	int id;
 	struct Stu* needToDel, * beforeDel;
 	beforeDel = NULL;
-	printf("输入要删除学生的id:");
+	printf("输入要删除学生的学号:");
 	scanf("%d", &id);
 	needToDel = head;
 	while (needToDel != NULL)
@@ -311,7 +311,7 @@ void del()//删除
 			needToDel = needToDel->next;
 		}
 	}
-	printf("id不存在！返回至菜单:\n");
+	printf("学号不存在！返回至菜单:\n");
 	system("pause");
 	return;
 }
@@ -552,7 +552,7 @@ void save(bool output = false)//文件存放
 
 void printStu(struct Stu* stu) //输出学生信息
 {
-	printf("id: %d\t姓名: %s\t性别: %s\t专业: %s\t出生日期: %d-%d-%d\t家庭地址: %s\t英语入学成绩: %.1f\n", stu->id, stu->name, stu->sex, stu->field, stu->birthday.year, stu->birthday.month, stu->birthday.day, stu->address, stu->E_grade);
+	printf("学号: %d\t姓名: %s\t性别: %s\t专业: %s\t出生日期: %d-%d-%d\t家庭地址: %s\t英语入学成绩: %.1f\n", stu->id, stu->name, stu->sex, stu->field, stu->birthday.year, stu->birthday.month, stu->birthday.day, stu->address, stu->E_grade);
 	return;
 }
 int main(int argc, char* argv[]) {
