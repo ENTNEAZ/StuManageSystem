@@ -67,7 +67,7 @@ void menu() //菜单
 		printf("2.查询学生信息 \n");
 		printf("3.修改学生信息 \n");
 		printf("4.删除学生信息 \n");
-		printf("5.浏览全部信息 \n");
+		printf("5.学生信息统计 \n");
 		printf("6.学生成绩排序 \n");
 		printf("7.学生信息储存 \n");
 		printf("8.保存并安全退出   \n");
@@ -341,9 +341,11 @@ void searchAll()//信息统计（筛选出制定专业或性别或年龄）
 		printf("\n");
 		printf("----------------------------学生信息统计系统----------------------------");
 		printf("\n");
-		printf("按照专业筛选输入1");
-		printf("按照性别筛选输入2");
-		printf("按照年龄筛选输入3");
+		printf("按照专业筛选输入1\n");
+		printf("按照性别筛选输入2\n");
+		printf("按照年龄筛选输入3\n");
+		printf("\n");
+		printf("返回主菜单输入4\n");
 		printf("\n");
 		printf("------------------------------------------------------------------------");
 		printf("\n");
@@ -359,6 +361,9 @@ void searchAll()//信息统计（筛选出制定专业或性别或年龄）
 			break;
 		case 3:
 			screenAge();
+			break;
+		case 4:
+			return;
 			break;
 		default :
 			printf("无法识别，请重新输入！\n");
@@ -388,7 +393,7 @@ void screenField()//按照专业筛选出符合条件的学生
 		}
 		item = item->next;
 	}
-	printf("符合条件的学生有%d个", count);
+	printf("符合条件的学生有%d个\n", count);
 	system("pause");
 	return;
 }
@@ -414,7 +419,7 @@ void screenSex()//按照性别筛选出符合条件的学生
 		}
 		item = item->next;
 	}
-	printf("符合条件的学生有%d个", count);
+	printf("符合条件的学生有%d个\n", count);
 	system("pause");
 	return;
 }
@@ -440,7 +445,7 @@ void screenAge()//按照年龄筛选出符合条件的学生
 		}
 		item = item->next;
 	}
-	printf("符合条件的学生有%d个", count);
+	printf("符合条件的学生有%d个\n", count);
 	system("pause");
 	return;
 }
