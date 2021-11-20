@@ -152,7 +152,7 @@ void add()//增加
 void addRaw(int id,char name[],char sex[],char field[],int year,int month,int day,char address[],float E_grade) //赋值
 {
 	struct Stu* toAdd = (struct Stu*)malloc(sizeof(struct Stu));
-	struct Stu* a = head;
+
 	toAdd->id = id;
 	strcpy(toAdd->name, name);
 	strcpy(toAdd->sex, sex);
@@ -163,13 +163,14 @@ void addRaw(int id,char name[],char sex[],char field[],int year,int month,int da
 	strcpy(toAdd->address, address);
 	toAdd->E_grade = E_grade;
 	toAdd->next = NULL;
+
 	if (head == NULL) {
 		head = toAdd;
 		last = head;//last指向最后一个元素
 	}
 	else {
 		last->next = toAdd;
-		last = toAdd;
+		last = last->next;
 	}
 	return;
 }
@@ -177,7 +178,9 @@ void addRaw(int id,char name[],char sex[],char field[],int year,int month,int da
 bool isExist(int id, bool output = false)//查重 output为是否输出已经存在的信息
 {
 	if (head == NULL)
+	{
 		return false;
+	}
 	struct Stu* item = head;
 	if (item->id == id)
 	{
