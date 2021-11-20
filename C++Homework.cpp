@@ -316,26 +316,6 @@ void del()//删除
 	return;
 }
 
-/*void searchAll()//查找全部（遍历） 
-{
-	struct Stu* item = head;
-	char informationFind[30];
-	printf("请输入要筛选出的专业：");
-	scanf("%s", &informationFind);
-	if (head == NULL)
-	{
-		return;
-	}
-	while (item != NULL)
-	{
-		printStu(item);
-		item = item->next;
-	}
-	printf("\n");
-	system("pause");
-	return;
-}*/
-
 void searchAll()//信息统计（筛选出制定专业或性别或年龄）
 {
 	int userChoice;
@@ -462,7 +442,7 @@ void screenAge()//按照年龄筛选出符合条件的学生
 
 void sort()//按照英语成绩排序
 {
-	struct Stu* prePoint, *curPoint, *nextPoint, *end;//pre前一项 cur当前项 next后一项 end控制循环次数(优化冒泡)
+	struct Stu* prePoint, *curPoint, *nextPoint, *end,*tempPoint;//pre前一项 cur当前项 next后一项 end控制循环次数(优化冒泡)
 	end = NULL;
 	prePoint = head;
 	curPoint = prePoint->next;
@@ -480,8 +460,8 @@ void sort()//按照英语成绩排序
 				prePoint->next = nextPoint;
 				curPoint->next = nextPoint->next;
 				nextPoint->next = curPoint;
-				//此时nextPoint变前一项，curPoint变后一项  交换nextPoint, curPoint
-				struct Stu* tempPoint = curPoint;
+				
+				tempPoint = curPoint;//此时nextPoint变前一项，curPoint变后一项  交换nextPoint, curPoint
 				curPoint = nextPoint; 
 				nextPoint = tempPoint;
 			}
@@ -529,7 +509,8 @@ void save(bool output = false)//文件存放
 	FILE* fp = NULL;
 	struct Stu* item = head;
 	fp = fopen("information.txt", "w");
-	while (item != NULL && fp != NULL) {
+	while (item != NULL && fp != NULL) 
+	{
 		fprintf(fp,"%d\n",item->id);
 		fprintf(fp,"%s\n", item->name);
 		fprintf(fp, "%s\n", item->sex);
