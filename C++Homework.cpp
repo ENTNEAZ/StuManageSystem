@@ -102,7 +102,7 @@ void menu() //菜单
 			save(true);
 			break;
 		case 8:
-			printf("退出");
+			save(true);
 			return;
 			break;
 		default:
@@ -360,6 +360,7 @@ void screenField()//按照专业筛选出符合条件的学生
 	struct Stu* item = head;
 	char findField[30];
 	int count = 0;
+	findField[29] = '\0';
 	printf("请输入要筛选出的专业：");
 	scanf("%s", &findField);
 	if (head == NULL)
@@ -388,6 +389,7 @@ void screenSex()//按照性别筛选出符合条件的学生
 	struct Stu* item = head;
 	char findSex[5];
 	int count = 0;
+	findSex[4] = '\0';
 	printf("请输入要筛选出的性别：");
 	scanf("%s", &findSex);
 	if (head == NULL)
@@ -447,7 +449,7 @@ void sort()//按照英语成绩排序
 	prePoint = head;
 	curPoint = prePoint->next;
 	nextPoint = curPoint->next;//初始化三个指针 ; 判断是否到达结束位置 ; 三个指针集体后移
-	if (head == NULL)
+	if (nextPoint == NULL)
 	{
 		return;
 	}
@@ -499,8 +501,6 @@ void load(bool output = false) //
 		printf("导入成功\n");
 		system("pause");
 	}
-		
-
 	return;
 }
 
@@ -509,6 +509,7 @@ void save(bool output = false)//文件存放
 	FILE* fp = NULL;
 	struct Stu* item = head;
 	fp = fopen("information.txt", "w");
+
 	while (item != NULL && fp != NULL) 
 	{
 		fprintf(fp,"%d\n",item->id);
@@ -523,6 +524,7 @@ void save(bool output = false)//文件存放
 
 		item = item->next;
 	}
+
 	fp != NULL ? fclose(fp) : NULL;
 	if (output) {
 		printf("导出成功\n");
@@ -536,6 +538,7 @@ void printStu(struct Stu* stu) //输出学生信息
 	printf("学号: %d\t姓名: %s\t性别: %s\t专业: %s\t出生日期: %d-%d-%d\t家庭地址: %s\t英语入学成绩: %.1f\n", stu->id, stu->name, stu->sex, stu->field, stu->birthday.year, stu->birthday.month, stu->birthday.day, stu->address, stu->E_grade);
 	return;
 }
+
 int main(int argc, char* argv[]) {
 	load();
 	menu();
