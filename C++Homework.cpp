@@ -38,15 +38,15 @@ struct Stu* last = NULL;
 //struct Stu* p, * q;
 
 
-void menu();				//菜单													0.
-void add();					//新增学生信息											1.done 
-void del();					//删除学生信息											2.done
-void load(bool output);		//导入学生信息											3.done
+void menu();				//菜单														0.
+void add();					//新增学生信息												1.done 
+void del();					//删除学生信息												2.done
+void load(bool output);		//导入学生信息												3.done
 void search();				//学生信息搜索(按姓名)										4.done
-void searchAll();			//学生信息统计（按专业或性别或年龄---年龄要自动计算）			5.done
-void sort(bool output);		//排序													6.done
-void save(bool output);		//学生信息保存											7.done
-void change();				//修改学生信息（好像没要求写，自己加的）						8.done
+void searchAll();			//学生信息统计（按专业或性别或年龄---年龄要自动计算）		5.done
+void sort(bool output);		//排序														6.done
+void save(bool output);		//学生信息保存												7.done
+void change();				//修改学生信息（好像没要求写，自己加的）					8.done
 
 void addRaw(int id, char name[], char sex[], char field[], int year, int month, int day, char address[], float E_grade);//赋值
 bool isExist(int id,bool output);//检查输入学号是否已存在
@@ -55,8 +55,8 @@ void screenField();//按照专业筛选学生
 void screenSex();//按照性别筛选学生
 void screenAge();//按照年龄筛选学生
 void printAll();//输出全部信息
-void birthdayJudge(int id, char name[], char sex[], char field[], int year, int month, int day, char address[], float E_grade);//出生日期判断（
-void isLeap(int id, char name[], char sex[], char field[], int year, int month, int day, char address[], float E_grade);//闰年判断（闰年2月29天，平年2月28天）
+bool birthdayJudge(int year, int month, int day, bool output);//判断输入的出生日期是否有误
+bool isLeap(int year, int month, int day, bool output);//月份为2时根据年份判断是否闰年，然后判断输入的出生日期是否有误
 
 
 void menu() //菜单
@@ -145,50 +145,19 @@ void add()//增加
 		scanf("%s", &address);
 		printf("输入英语入学成绩：");
 		scanf("%f", &E_grade);
-		birthdayJudge(id, name, sex, field, year, month, day, address, E_grade);
-		//if (year < 2021 && month >= 1 && month <= 12 && day >= 1 && day <= 31)
-		//{
-		//	switch (month)
-		//	{
-		//	case 4:
-		//	case 6:
-		//	case 9:
-		//	case 11:
-		//		if (day != 31)
-		//		{
-		//			addRaw(id, name, sex, field, year, month, day, address, E_grade);
-		//			printf("添加成功！\n");
-		//		}
-		//		else
-		//		{
-		//			printf("该月份无31号，请重新输入\n");
-		//			add();
-		//		}
-		//		break;
-		//	case 2:
-
-		//		break;
-		//	default:
-		//		addRaw(id, name, sex, field, year, month, day, address, E_grade);
-		//		printf("添加成功！\n");
-
-
-		//	}
-		//}
-		//else
-		//{
-		//	printf("出生日期输入有误,请重新输入！");
-		//}
-//		addRaw(id, name, sex, field, year, month, day, address, E_grade);
-//		printf("添加成功！\n");
 		system("pause");
 	}
+	if (birthdayJudge(year month, day, ture))
+	{
+		return;
+	}
+	addRaw(id, name, sex, field, year, month, day, address, E_grade);
+	printf("添加成功！\n");
 	return;
 }
 
-void birthdayJudge(int id, char name[], char sex[], char field[], int year, int month, int day, char address[], float E_grade)
-{
-			if (year < localtime(&t)->tm_year + 1900 && month >= 1 && month <= 12 && day >= 1 && day <= 31)
+bool birthdayJudge(int year, int month, int day, bool output)
+		if (year < localtime(&t)->tm_year + 1900 && month >= 1 && month <= 12 && day >= 1 && day <= 31)
 		{
 			switch (month)
 			{
@@ -198,31 +167,24 @@ void birthdayJudge(int id, char name[], char sex[], char field[], int year, int 
 			case 11:
 				if (day != 31)
 				{
-					addRaw(id, name, sex, field, year, month, day, address, E_grade);
-					printf("添加成功！\n");
+					return false;
 				}
-				else
-				{
-					printf("出生日期输入有误,请重新输入！");
-					add();
-				}
+				return true;
 				break;
 			case 2:
-				isLeap(year);
+				isLeap(year);//判断2月的天数输入是否有误
 				break;
 			default:
-				addRaw(id, name, sex, field, year, month, day, address, E_grade);
-				printf("添加成功！\n");
+				return false;
 			}
 		}
 		else
 		{
-			printf("出生日期输入有误,请重新输入！");
-			return;
+			return false;
 		}
 }
 
-void isLeap(int id, char name[], char sex[], char field[], int year, int month, int day, char address[], float E_grade)//闰年判断（闰年2月29天，平年2月28天）
+bool isLeap(int year, int month, int day, bool output)//闰年判断（闰年2月29天，平年2月28天）
 {
 	int four;
 	int hundred1;
@@ -234,27 +196,17 @@ void isLeap(int id, char name[], char sex[], char field[], int year, int month, 
 	{
 		if (day <= 29)
 		{
-			addRaw(id, name, sex, field, year, month, day, address, E_grade);
-			printf("添加成功！\n");
+			return false;
 		}
-		else
-		{
-			printf("出生日期输入有误,请重新输入！");
-			return;
-		}
+		return true;
 	}
 	else
 	{
 		if (day <= 28)
 		{
-			addRaw(id, name, sex, field, year, month, day, address, E_grade);
-			printf("添加成功！\n");
+			return false;
 		}
-		else
-		{
-			printf("出生日期输入有误,请重新输入！");
-			return;
-		}
+		return true;
 	}
 }
 
