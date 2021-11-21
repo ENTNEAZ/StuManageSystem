@@ -183,10 +183,8 @@ bool birthdayJudge(int year, int month, int day, bool output)
 			return false;
 		}
 	}
-	else
-	{
-		return false;
-	}
+	
+	return false;
 }
 
 bool isLeap(int year, int month, int day, bool output)//闰年判断（闰年2月29天，平年2月28天）
@@ -220,7 +218,10 @@ bool isLeap(int year, int month, int day, bool output)//闰年判断（闰年2�
 void addRaw(int id,char name[],char sex[],char field[],int year,int month,int day,char address[],float E_grade) //赋值
 {
 	struct Stu* toAdd = (struct Stu*)malloc(sizeof(struct Stu));
-
+	if (toAdd == NULL) {
+		printf("内存不足！无法添加");
+		return;
+	}
 	toAdd->id = id;
 	strcpy(toAdd->name, name);
 	strcpy(toAdd->sex, sex);
@@ -528,7 +529,12 @@ void sort(bool output = false)//按照英语成绩排序
 	prePoint = NULL;
 	curPoint = head;
 	if (curPoint == NULL || curPoint->next == NULL)
+	{
+		printf("排序成功，已按照英语成绩进行排序\n");
+		system("pause");
 		return;//一个都没有或者就一个 干嘛欺骗我的感情
+	}
+		
 	//现在保证至少有两个了
 	nextPoint = curPoint->next;//初始化三个指针 ; 
 	while (head->next != end)
@@ -570,7 +576,7 @@ void sort(bool output = false)//按照英语成绩排序
 void load(bool output = false) //
 {
 	FILE* fp = NULL;
-	char name[15], sex[5], field[30], birthday[20], address[100];
+	char name[15], sex[5], field[30], address[100];
 	float E_grade;
 	int id, year, month, day;
 	bool haveNext = true;
@@ -578,15 +584,15 @@ void load(bool output = false) //
 
 	while (haveNext && fp != NULL)
 	{
-		fscanf(fp, "%d\n", &id);
-		fscanf(fp, "%s\n", &name);
-		fscanf(fp, "%s\n", &sex);
-		fscanf(fp, "%s\n", &field);
-		fscanf(fp, "%d\n", &year);
-		fscanf(fp, "%d\n", &month);
-		fscanf(fp, "%d\n", &day);
-		fscanf(fp, "%s\n", &address);
-		haveNext = (fscanf(fp, "%f\n", &E_grade) == -1)?false:true;//当返回-1时代表没有内容了
+		haveNext = (fscanf(fp, "%d\n", &id) == -1) ? false : true;
+		haveNext = (fscanf(fp, "%s\n", &name) == -1) ? false : haveNext;
+		haveNext = (fscanf(fp, "%s\n", &sex) == -1) ? false : haveNext;
+		haveNext = (fscanf(fp, "%s\n", &field) == -1) ? false : haveNext;
+		haveNext = (fscanf(fp, "%d\n", &year) == -1) ? false : haveNext;
+		haveNext = (fscanf(fp, "%d\n", &month) == -1) ? false : haveNext;
+		haveNext = (fscanf(fp, "%d\n", &day) == -1) ? false : haveNext;
+		haveNext = (fscanf(fp, "%s\n", &address) == -1) ? false : haveNext;
+		haveNext = (fscanf(fp, "%f\n", &E_grade) == -1) ? false : haveNext;//当返回-1时代表没有内容了
 		if (haveNext)
 			addRaw(id, name, sex, field, year, month, day, address, E_grade);
 	}
