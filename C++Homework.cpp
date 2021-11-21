@@ -40,10 +40,10 @@ struct Stu* last = NULL;
 void menu();				//菜单														
 void load(bool output);		//导入学生信息												0.done
 void add();					//新增学生信息												1.done 
-void search();				//学生信息查询(按姓名)										2.done
-void change();				//修改学生信息（好像没要求写，自己加的）					3.done
+void search();				//学生信息查询(按姓名)											2.done
+void change();				//修改学生信息（好像没要求写，自己加的）							3.done
 void del();					//删除学生信息												4.done
-void searchAll();			//学生信息统计（按专业或性别或年龄---年龄要自动计算）		5.done
+void searchAll();			//学生信息统计（按专业或性别或年龄---年龄要自动计算）				5.done
 void sort(bool output);		//排序														6.done
 void printAll();			//输出全部信息												7.done
 void save(bool output);		//学生信息保存												8.done
