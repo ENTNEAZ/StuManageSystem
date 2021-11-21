@@ -146,46 +146,47 @@ void add()//增加
 		scanf("%s", &address);
 		printf("输入英语入学成绩：");
 		scanf("%f", &E_grade);
-		system("pause");
 		if (birthdayJudge(year, month, day, true))
 		{
 			return;
 		}
 		addRaw(id, name, sex, field, year, month, day, address, E_grade);
 		printf("添加成功！\n");
+		system("pause");
 		return;
 	}
-
 }
 
 bool birthdayJudge(int year, int month, int day, bool output)
 {
-		if (year < localtime(&t)->tm_year + 1900 && month >= 1 && month <= 12 && day >= 1 && day <= 31)
+	time_t  t;
+	time(&t);
+	if (year <= localtime(&t)->tm_year + 1900 && month >= 1 && month <= 12 && day >= 1 && day <= 31)
+	{
+		switch (month)
 		{
-			switch (month)
+		case 4:
+		case 6:
+		case 9:
+		case 11:
+			if (day != 31)
 			{
-			case 4:
-			case 6:
-			case 9:
-			case 11:
-				if (day != 31)
-				{
-					return false;
-				}
-				printf("日期输入有误，请重新输入\n");
-				return true;
-				break;
-			case 2:
-				isLeap(year,month,day,true);//判断2月的天数输入是否有误
-				break;
-			default:
 				return false;
 			}
-		}
-		else
-		{
+			printf("日期输入有误，请重新输入\n");
+			return true;
+			break;
+		case 2:
+			isLeap(year,month,day,true);//判断2月的天数输入是否有误
+			break;
+		default:
 			return false;
 		}
+	}
+	else
+	{
+		return false;
+	}
 }
 
 bool isLeap(int year, int month, int day, bool output)//闰年判断（闰年2月29天，平年2月28天）
