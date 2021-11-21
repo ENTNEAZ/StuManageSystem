@@ -125,8 +125,9 @@ void add()//增加
 	if (isExist(id, true)) {
 		add();//已经存在此人 递归再次输入
 	}
-	else {
-		char name[15], sex[5], field[30], birthday[20], address[100];
+	else 
+	{
+		char name[15], sex[5], field[30], address[100];
 		float E_grade;
 		int year, month, day;
 		printf("输入姓名: ");
@@ -146,17 +147,19 @@ void add()//增加
 		printf("输入英语入学成绩：");
 		scanf("%f", &E_grade);
 		system("pause");
-	}
-	if (birthdayJudge(year month, day, ture))
-	{
+		if (birthdayJudge(year, month, day, true))
+		{
+			return;
+		}
+		addRaw(id, name, sex, field, year, month, day, address, E_grade);
+		printf("添加成功！\n");
 		return;
 	}
-	addRaw(id, name, sex, field, year, month, day, address, E_grade);
-	printf("添加成功！\n");
-	return;
+
 }
 
 bool birthdayJudge(int year, int month, int day, bool output)
+{
 		if (year < localtime(&t)->tm_year + 1900 && month >= 1 && month <= 12 && day >= 1 && day <= 31)
 		{
 			switch (month)
@@ -169,10 +172,11 @@ bool birthdayJudge(int year, int month, int day, bool output)
 				{
 					return false;
 				}
+				printf("日期输入有误，请重新输入\n");
 				return true;
 				break;
 			case 2:
-				isLeap(year);//判断2月的天数输入是否有误
+				isLeap(year,month,day,true);//判断2月的天数输入是否有误
 				break;
 			default:
 				return false;
@@ -198,6 +202,7 @@ bool isLeap(int year, int month, int day, bool output)//闰年判断（闰年2�
 		{
 			return false;
 		}
+		printf("日期输入有误，请重新输入\n");
 		return true;
 	}
 	else
@@ -206,6 +211,7 @@ bool isLeap(int year, int month, int day, bool output)//闰年判断（闰年2�
 		{
 			return false;
 		}
+		printf("日期输入有误，请重新输入\n");
 		return true;
 	}
 }
@@ -326,6 +332,10 @@ void change()//修改
 			printf("输入英语入学成绩:");
 			scanf("%f", &item->E_grade);
 			printf("-----------------------------------------------");
+			if (birthdayJudge(item->birthday.year, item->birthday.month, item->birthday.day, true))
+			{
+				return;
+			}
 			printf("\n");
 			printf("修改后结果为\n");
 			printStu(item);
