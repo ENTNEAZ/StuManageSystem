@@ -55,6 +55,9 @@ void screenField();//按照专业筛选学生
 void screenSex();//按照性别筛选学生
 void screenAge();//按照年龄筛选学生
 void printAll();//输出全部信息
+void birthdayJudge(int id, char name[], char sex[], char field[], int year, int month, int day, char address[], float E_grade);//出生日期判断（
+void isLeap(int id, char name[], char sex[], char field[], int year, int month, int day, char address[], float E_grade);//闰年判断（闰年2月29天，平年2月28天）
+
 
 void menu() //菜单
 {
@@ -142,12 +145,117 @@ void add()//增加
 		scanf("%s", &address);
 		printf("输入英语入学成绩：");
 		scanf("%f", &E_grade);
+		birthdayJudge(id, name, sex, field, year, month, day, address, E_grade);
+		//if (year < 2021 && month >= 1 && month <= 12 && day >= 1 && day <= 31)
+		//{
+		//	switch (month)
+		//	{
+		//	case 4:
+		//	case 6:
+		//	case 9:
+		//	case 11:
+		//		if (day != 31)
+		//		{
+		//			addRaw(id, name, sex, field, year, month, day, address, E_grade);
+		//			printf("添加成功！\n");
+		//		}
+		//		else
+		//		{
+		//			printf("该月份无31号，请重新输入\n");
+		//			add();
+		//		}
+		//		break;
+		//	case 2:
 
-		addRaw(id, name, sex, field, year, month, day, address, E_grade);
-		printf("添加成功！\n");
+		//		break;
+		//	default:
+		//		addRaw(id, name, sex, field, year, month, day, address, E_grade);
+		//		printf("添加成功！\n");
+
+
+		//	}
+		//}
+		//else
+		//{
+		//	printf("出生日期输入有误,请重新输入！");
+		//}
+//		addRaw(id, name, sex, field, year, month, day, address, E_grade);
+//		printf("添加成功！\n");
 		system("pause");
 	}
 	return;
+}
+
+void birthdayJudge(int id, char name[], char sex[], char field[], int year, int month, int day, char address[], float E_grade)
+{
+			if (year < localtime(&t)->tm_year + 1900 && month >= 1 && month <= 12 && day >= 1 && day <= 31)
+		{
+			switch (month)
+			{
+			case 4:
+			case 6:
+			case 9:
+			case 11:
+				if (day != 31)
+				{
+					addRaw(id, name, sex, field, year, month, day, address, E_grade);
+					printf("添加成功！\n");
+				}
+				else
+				{
+					printf("出生日期输入有误,请重新输入！");
+					add();
+				}
+				break;
+			case 2:
+				isLeap(year);
+				break;
+			default:
+				addRaw(id, name, sex, field, year, month, day, address, E_grade);
+				printf("添加成功！\n");
+			}
+		}
+		else
+		{
+			printf("出生日期输入有误,请重新输入！");
+			return;
+		}
+}
+
+void isLeap(int id, char name[], char sex[], char field[], int year, int month, int day, char address[], float E_grade)//闰年判断（闰年2月29天，平年2月28天）
+{
+	int four;
+	int hundred1;
+	int hundred4;
+	four = year % 4;
+	hundred1 = year % 100;
+	hundred4 = year % 400;
+	if ((hundred4 == 0 ) || (four == 0 && hundred1 != 0))
+	{
+		if (day <= 29)
+		{
+			addRaw(id, name, sex, field, year, month, day, address, E_grade);
+			printf("添加成功！\n");
+		}
+		else
+		{
+			printf("出生日期输入有误,请重新输入！");
+			return;
+		}
+	}
+	else
+	{
+		if (day <= 28)
+		{
+			addRaw(id, name, sex, field, year, month, day, address, E_grade);
+			printf("添加成功！\n");
+		}
+		else
+		{
+			printf("出生日期输入有误,请重新输入！");
+			return;
+		}
+	}
 }
 
 void addRaw(int id,char name[],char sex[],char field[],int year,int month,int day,char address[],float E_grade) //赋值
@@ -484,7 +592,6 @@ void sort(bool output = false)//按照英语成绩排序
 				tempPoint = curPoint;//此时nextPoint变前一项，curPoint变后一项  交换nextPoint, curPoint
 				curPoint = nextPoint;
 				nextPoint = tempPoint;
-				
 			}
 		}
 		end = curPoint;//一轮循环结束 最后一项已经排好 end提前一项 (冒泡原理)
@@ -495,6 +602,7 @@ void sort(bool output = false)//按照英语成绩排序
 	}
 		
 }
+
 
 void load(bool output = false) //
 {
