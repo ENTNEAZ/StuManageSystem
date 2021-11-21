@@ -154,7 +154,7 @@ void add()//增加
 		safeInput(scanf("%s", &address));
 		printf("输入英语入学成绩：");
 		safeInput(scanf("%f", &E_grade));
-		if (birthdayJudge(year, month, day))
+		if (!birthdayJudge(year, month, day))
 		{
 			printf("日期输入有误，返回至菜单\n");
 			system("pause");
