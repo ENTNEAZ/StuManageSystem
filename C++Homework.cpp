@@ -179,7 +179,7 @@ bool birthdayJudge(int year, int month, int day)
 		case 6:
 		case 9:
 		case 11:
-			if (day != 31)
+			if (day <= 30)//这些是小月
 			{
 				return true;
 			}
@@ -189,10 +189,10 @@ bool birthdayJudge(int year, int month, int day)
 			return isLeap(year,month,day);//判断2月的天数输入是否有误
 			break;
 		default:
-			return false;
+			return true;//这些月本来就有31天
 		}
 	}
-	return true;
+	return false;//日期不在范围里
 }
 
 bool isLeap(int year, int month, int day)//闰年判断（闰年2月29天，平年2月28天）
@@ -203,26 +203,26 @@ bool isLeap(int year, int month, int day)//闰年判断（闰年2月29天，平�
 	four = year % 4;
 	hundred1 = year % 100;
 	hundred4 = year % 400;
-	if ((hundred4 == 0 ) || (four == 0 && hundred1 != 0))
+	if ((hundred4 == 0 ) || (four == 0 && hundred1 != 0))//闰年
 	{
 		if (day <= 29)
 		{
-			return false;
+			return true;
 		}
 		else
 		{
-			return true;
+			return false;
 		}
 	}
-	else
+	else//平年
 	{
 		if (day <= 28)
 		{
-			return false;
+			return true;
 		}
 		else
 		{
-			return true;
+			return false;
 		}
 	}
 }
@@ -421,7 +421,7 @@ void searchAll()//信息统计（筛选出制定专业或性别或年龄）
 		printf("------------------------------------------------------------------------");
 		printf("\n");
 		printf("请输入序号:");
-		if (!scanf("%d", &userChoice))
+		safeInput(scanf("%d", &userChoice));
 			
 		switch (userChoice)
 		{
