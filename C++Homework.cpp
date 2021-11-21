@@ -448,7 +448,7 @@ void searchAll()//信息统计（筛选出制定专业或性别或年龄）
 void screenField()//按照专业筛选出符合条件的学生
 {
 	struct Stu* item = head;
-	char findField[30];
+	char findField[30] = { 0 };
 	int count = 0;
 	findField[29] = '\0';
 	printf("请输入要筛选出的专业：");
@@ -473,7 +473,7 @@ void screenField()//按照专业筛选出符合条件的学生
 void screenSex()//按照性别筛选出符合条件的学生
 {
 	struct Stu* item = head;
-	char findSex[5];
+	char findSex[5] = {0};
 	int count = 0;
 	findSex[4] = '\0';
 	printf("请输入要筛选出的性别：");
