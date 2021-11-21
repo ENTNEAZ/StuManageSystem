@@ -55,9 +55,9 @@ void screenSex();//按照性别筛选学生
 void screenAge();//按照年龄筛选学生
 
 bool isExist(int id,bool output);//检查输入学号是否已存在
-bool birthdayJudge(int year, int month, int day);//判断输入的出生日期是否有误
-bool isLeap(int year, int month, int day);//月份为2时根据年份判断是否闰年，然后判断输入的出生日期是否有误
-
+bool birthdayJudge(int year, int month, int day, bool output);//判断输入的出生日期是否有误
+bool isLeap(int year, int month, int day, bool output);//月份为2时根据年份判断是否闰年，然后判断输入的出生日期是否有误
+void safeInput(int a);//scanf的处理
 
 void menu() //菜单
 {
@@ -82,7 +82,7 @@ void menu() //菜单
 		printf("进行“增加”、“修改”、“删除”操作后，务必将信息储存，否则不会保存在文件内！\n");
 		printf("-----------------------------------------------------------------------------\n");
 		printf("请输入序号：");
-		scanf("%d", &userChoice);
+		safeInput(scanf("%d", &userChoice));
 		switch (userChoice)
 		{
 		case 0:
@@ -127,7 +127,8 @@ void add()//增加
 {
 	int id;
 	printf("输入学号：");
-	scanf("%d", &id);
+	safeInput(scanf("%d", &id));
+
 	if (isExist(id, true)) {
 		system("pause");
 		return;//已经存在此人 返回菜单
@@ -138,22 +139,22 @@ void add()//增加
 		float E_grade;
 		int year, month, day;
 		printf("输入姓名: ");
-		scanf("%s", &name);
+		safeInput(scanf("%s", &name));
 		printf("输入性别: ");
-		scanf("%s", &sex);
+		safeInput(scanf("%s", &sex));
 		printf("输入专业: ");
-		scanf("%s", &field);
+		safeInput(scanf("%s", &field));
 		printf("请输入出生年份: ");
-		scanf("%d", &year);
+		safeInput(scanf("%d", &year));
 		printf("请输入出生月份: ");
-		scanf("%d", &month);
+		safeInput(scanf("%d", &month));
 		printf("请输入出生日期: ");
-		scanf("%d", &day);
+		safeInput(scanf("%d", &day));
 		printf("输入家庭地址: ");
-		scanf("%s", &address);
+		safeInput(scanf("%s", &address));
 		printf("输入英语入学成绩：");
-		scanf("%f", &E_grade);
-		if (birthdayJudge(year, month, day))
+		safeInput(scanf("%f", &E_grade));
+		if (birthdayJudge(year, month, day, true))
 		{
 			printf("日期输入有误，请重新输入\n");
 			system("pause");
@@ -293,7 +294,7 @@ void search()//查询
 	struct Stu* item = head;
 	char inputName[15];
 	printf("输入要查询学生的姓名:");
-	scanf("%s", &inputName);
+	safeInput(scanf("%s", &inputName));
 	inputName[14] = '\0';//防止用户输入过长 导致没有\0
 	printf("下面是数据库内有关\"%s\"的信息\n\n", inputName);
 	while (item != NULL)
@@ -318,7 +319,7 @@ void change()//修改
 	struct Stu* item;
 	int id;
 	printf("输入要修改学生的学号:");
-	scanf("%d", &id);
+	safeInput(scanf("%d", &id));
 	item = head;
 	while (item != NULL)
 	{
@@ -327,23 +328,23 @@ void change()//修改
 			printStu(item);
 			printf("开始修改\n");
 			printf("输入学号:");
-			scanf("%d", &item->id);
+			safeInput(scanf("%d", &item->id));
 			printf("输入姓名:");
-			scanf("%s", &item->name);
+			safeInput(scanf("%s", &item->name));
 			printf("输入性别:");
-			scanf("%s", &item->sex);
+			safeInput(scanf("%s", &item->sex));
 			printf("输入专业:");
-			scanf("%s", &item->field);
+			safeInput(scanf("%s", &item->field));
 			printf("输入出生年份:");
-			scanf("%d", &item->birthday.year);
+			safeInput(scanf("%d", &item->birthday.year));
 			printf("输入出生月份:");
-			scanf("%d", &item->birthday.month);
+			safeInput(scanf("%d", &item->birthday.month));
 			printf("输入出生日期:");
-			scanf("%d", &item->birthday.day);
+			safeInput(scanf("%d", &item->birthday.day));
 			printf("输入家庭地址:");
-			scanf("%s", &item->address);
+			safeInput(scanf("%s", &item->address));
 			printf("输入英语入学成绩:");
-			scanf("%f", &item->E_grade);
+			safeInput(scanf("%f", &item->E_grade));
 			printf("-----------------------------------------------");
 			if (birthdayJudge(item->birthday.year, item->birthday.month, item->birthday.day))
 			{
@@ -370,7 +371,7 @@ void del()//删除
 	struct Stu* needToDel, * beforeDel;
 	beforeDel = NULL;
 	printf("输入要删除学生的学号:");
-	scanf("%d", &id);
+	safeInput(scanf("%d", &id));
 	needToDel = head;
 	while (needToDel != NULL)
 	{
@@ -420,7 +421,8 @@ void searchAll()//信息统计（筛选出制定专业或性别或年龄）
 		printf("------------------------------------------------------------------------");
 		printf("\n");
 		printf("请输入序号:");
-		scanf("%d", &userChoice);
+		if (!scanf("%d", &userChoice))
+			
 		switch (userChoice)
 		{
 		case 1:
@@ -452,7 +454,7 @@ void screenField()//按照专业筛选出符合条件的学生
 	int count = 0;
 	findField[29] = '\0';
 	printf("请输入要筛选出的专业：");
-	scanf("%s", &findField);
+	safeInput(scanf("%s", &findField));
 	printf("\n以下是数据库中的信息：\n");
 	while (item != NULL)
 	{
@@ -477,7 +479,7 @@ void screenSex()//按照性别筛选出符合条件的学生
 	int count = 0;
 	findSex[4] = '\0';
 	printf("请输入要筛选出的性别：");
-	scanf("%s", &findSex);
+	safeInput(scanf("%s", &findSex));
 	printf("\n以下是数据库中的信息：\n");
 	while (item != NULL)
 	{
@@ -503,7 +505,7 @@ void screenAge()//按照年龄筛选出符合条件的学生
 	time_t  t;
 	time(&t);
 	printf("请输入要筛选出的年龄：");
-	scanf("%d", &findAge);
+	safeInput(scanf("%d", &findAge));
 	printf("\n以下是数据库中的信息：\n");
 	while (item != NULL)
 	{
@@ -651,8 +653,11 @@ void printStu(struct Stu* stu) //输出学生信息
 	return;
 }
 
-int main(int argc, char* argv[]) 
-{
+void safeInput(int a) {
+	if(a == 0)//scanf扫到了0个 防止意外 删除非法字符
+		while (getchar() != '\n');//删除非法字符
+}
+int main(int argc, char* argv[]) {
 	load();
 	menu();
 	return 0;
