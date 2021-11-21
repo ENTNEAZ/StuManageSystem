@@ -180,9 +180,9 @@ bool birthdayJudge(int year, int month, int day, bool output)
 		case 11:
 			if (day != 31)
 			{
-				return true;
+				return false;
 			}
-			return false;
+			return true;
 			break;
 		case 2:
 			return isLeap(year,month,day,true);//判断2月的天数输入是否有误
