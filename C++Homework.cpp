@@ -545,16 +545,16 @@ void sort(bool output = false)//按照英语成绩排序
 	{
 		printf("排序成功，已按照英语成绩进行排序\n");
 		system("pause");
-		return;//一个都没有或者就一个 干嘛欺骗我的感情
+		return;//一个都没有或者就一个
 	}
 		
-	//现在保证至少有两个了
-	nextPoint = curPoint->next;//初始化三个指针 ; 
+	//至少有两个
+	nextPoint = curPoint->next;//初始化三个指针 
 	while (head->next != end)
 	{
 		prePoint = NULL;
 		curPoint = head;
-		nextPoint = curPoint->next;
+		nextPoint = curPoint->next;//结束for循环，对几个指针进行复位
 		for (; nextPoint != end; prePoint = prePoint == NULL?head:prePoint->next, curPoint = curPoint->next, nextPoint = nextPoint->next)
 		{	//判断是否到达结束位置 ; 
 
