@@ -55,8 +55,8 @@ void screenSex();//按照性别筛选学生
 void screenAge();//按照年龄筛选学生
 
 bool isExist(int id,bool output);//检查输入学号是否已存在
-bool birthdayJudge(int year, int month, int day, bool output);//判断输入的出生日期是否有误
-bool isLeap(int year, int month, int day, bool output);//月份为2时根据年份判断是否闰年，然后判断输入的出生日期是否有误
+bool birthdayJudge(int year, int month, int day);//判断输入的出生日期是否有误
+bool isLeap(int year, int month, int day);//月份为2时根据年份判断是否闰年，然后判断输入的出生日期是否有误
 void safeInput(int a);//scanf的处理
 
 void menu() //菜单
@@ -154,9 +154,9 @@ void add()//增加
 		safeInput(scanf("%s", &address));
 		printf("输入英语入学成绩：");
 		safeInput(scanf("%f", &E_grade));
-		if (birthdayJudge(year, month, day, true))
+		if (birthdayJudge(year, month, day))
 		{
-			printf("日期输入有误，请重新输入\n");
+			printf("日期输入有误，返回至菜单\n");
 			system("pause");
 			return;
 		}
@@ -166,12 +166,12 @@ void add()//增加
 		return;
 	}
 }
-//localtime(&t)->tm_year + 1900
-bool birthdayJudge(int year, int month, int day, bool output)
+
+bool birthdayJudge(int year, int month, int day)
 {
-	/*time_t  t;
-	time(&t);*/
-	if (year <= 2021 && month >= 1 && month <= 12 && day >= 1 && day <= 31)
+	time_t  t;
+	time(&t);
+	if (year <= localtime(&t)->tm_year + 1900 && month >= 1 && month <= 12 && day >= 1 && day <= 31)
 	{
 		switch (month)
 		{
@@ -186,7 +186,7 @@ bool birthdayJudge(int year, int month, int day, bool output)
 			return false;
 			break;
 		case 2:
-			return isLeap(year,month,day,true);//判断2月的天数输入是否有误
+			return isLeap(year,month,day);//判断2月的天数输入是否有误
 			break;
 		default:
 			return false;
@@ -195,7 +195,7 @@ bool birthdayJudge(int year, int month, int day, bool output)
 	return true;
 }
 
-bool isLeap(int year, int month, int day, bool output)//闰年判断（闰年2月29天，平年2月28天）
+bool isLeap(int year, int month, int day)//闰年判断（闰年2月29天，平年2月28天）
 {
 	int four;
 	int hundred1;
@@ -346,7 +346,7 @@ void change()//修改
 			printf("输入英语入学成绩:");
 			safeInput(scanf("%f", &item->E_grade));
 			printf("-----------------------------------------------");
-			if (birthdayJudge(item->birthday.year, item->birthday.month, item->birthday.day, true))
+			if (birthdayJudge(item->birthday.year, item->birthday.month, item->birthday.day))
 			{
 				return;
 			}
