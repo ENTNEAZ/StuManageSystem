@@ -35,26 +35,26 @@ struct Stu {
 
 struct Stu* head = NULL;
 struct Stu* last = NULL;
-//struct Stu* p, * q;
 
 
-void menu();				//菜单														0.
+void menu();				//菜单														
+void load(bool output);		//导入学生信息												0.done
 void add();					//新增学生信息												1.done 
-void del();					//删除学生信息												2.done
-void load(bool output);		//导入学生信息												3.done
-void search();				//学生信息搜索(按姓名)										4.done
+void search();				//学生信息查询(按姓名)										2.done
+void change();				//修改学生信息（好像没要求写，自己加的）					3.done
+void del();					//删除学生信息												4.done
 void searchAll();			//学生信息统计（按专业或性别或年龄---年龄要自动计算）		5.done
 void sort(bool output);		//排序														6.done
-void save(bool output);		//学生信息保存												7.done
-void change();				//修改学生信息（好像没要求写，自己加的）					8.done
+void printAll();			//输出全部信息												7.done
+void save(bool output);		//学生信息保存												8.done
 
 void addRaw(int id, char name[], char sex[], char field[], int year, int month, int day, char address[], float E_grade);//赋值
-bool isExist(int id,bool output);//检查输入学号是否已存在
 void printStu(struct Stu* stu);//输出学生信息
 void screenField();//按照专业筛选学生
 void screenSex();//按照性别筛选学生
 void screenAge();//按照年龄筛选学生
-void printAll();//输出全部信息
+
+bool isExist(int id,bool output);//检查输入学号是否已存在
 bool birthdayJudge(int year, int month, int day, bool output);//判断输入的出生日期是否有误
 bool isLeap(int year, int month, int day, bool output);//月份为2时根据年份判断是否闰年，然后判断输入的出生日期是否有误
 
@@ -74,9 +74,12 @@ void menu() //菜单
 		printf("4.删除学生信息 \n");
 		printf("5.学生信息统计 \n");
 		printf("6.学生成绩排序 \n");
-		printf("7.学生信息储存 \n");
-		printf("8.保存并安全退出   \n");
+		printf("7.学生信息总览 \n");
+		printf("8.学生信息储存 \n");
+		printf("9.保存并安全退出   \n");
 		printf("\n");
+		printf("使用注意事项\n");
+		printf("进行“增加”、“修改”、“删除”操作后，务必将信息储存，否则不会保存在文件内！\n");
 		printf("-----------------------------------------------------------------------------\n");
 		printf("请输入序号：");
 		scanf("%d", &userChoice);
@@ -104,9 +107,12 @@ void menu() //菜单
 			sort(true);
 			break;
 		case 7:
-			save(true);
+			printAll();
 			break;
 		case 8:
+			save(true);
+			break;
+		case 9:
 			save(true);
 			return;
 			break;
@@ -648,6 +654,5 @@ void printStu(struct Stu* stu) //输出学生信息
 int main(int argc, char* argv[]) {
 	load();
 	menu();
-	//system("pause");
 	return 0;
 }
