@@ -654,8 +654,9 @@ void printStu(struct Stu* stu) //输出学生信息
 }
 
 void safeInput(int a) {
-	if(a == 0)//scanf扫到了0个 防止意外 删除非法字符
-		while (getchar() != '\n');//删除非法字符
+	//if(a == 0)//scanf扫到了0个 防止意外 删除非法字符
+	while (getchar() != '\n');//删除非法字符
+	return;
 }
 int main(int argc, char* argv[]) {
 	load();
