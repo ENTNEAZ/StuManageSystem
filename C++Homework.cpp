@@ -659,7 +659,8 @@ void safeInput(int a) {
 	while (getchar() != '\n');//删除非法字符
 	return;
 }
-int main(int argc, char* argv[]) {
+int main(int argc, char* argv[]) 
+{
 	load();
 	menu();
 	return 0;
