@@ -611,7 +611,8 @@ void load(bool output = false) //
 	}
 
 	fp != NULL ? fclose(fp) : NULL;
-	if (output) {
+	if (output) 
+	{
 		printf("导入成功\n");
 		system("pause");
 	}
