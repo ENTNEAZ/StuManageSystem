@@ -649,7 +649,7 @@ void save(bool output = false)//文件存放
 
 void printStu(struct Stu* stu) //输出学生信息
 {
-	printf("学号: %-10d姓名: %-10s性别: %-10s专业: %-15s出生日期: %-4d-%-2d-%-5d家庭地址: %-20s英语入学成绩: %.1f\n", stu->id, stu->name, stu->sex, stu->field, stu->birthday.year, stu->birthday.month, stu->birthday.day, stu->address, stu->E_grade);
+	printf("学号: %-10d姓名: %-10s性别: %-10s专业: %-15s出生日期: %4d-%2d-%2d\t家庭地址: %-20s英语入学成绩: %.1f\n", stu->id, stu->name, stu->sex, stu->field, stu->birthday.year, stu->birthday.month, stu->birthday.day, stu->address, stu->E_grade);
 	return;
 }
 
