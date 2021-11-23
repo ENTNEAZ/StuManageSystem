@@ -297,7 +297,7 @@ bool sexJudge(char sex[])//判断输入的性别是否为“男”或“女”
 
 void addRaw(int id,char name[],char sex[],char field[],int year,int month,int day,char address[],float E_grade) //赋值
 {
-	struct Stu* toAdd = (struct Stu*)malloc(sizeof(struct Stu));
+	struct Stu* toAdd = new struct Stu;
 
 	if (toAdd == NULL) {
 		cout << "内存不足！无法添加" << endl;
@@ -476,11 +476,11 @@ void del()//删除
 			if (beforeDel == NULL) 
 			{
 				head = needToDel->next;
-				free(needToDel);
+				delete needToDel;
 			}
 			else {
 				beforeDel->next = needToDel->next;
-				free(needToDel);
+				delete needToDel;
 			}
 			cout << "该学生信息已删除" << endl;
 			system("pause");
