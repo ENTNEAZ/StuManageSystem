@@ -91,7 +91,6 @@ bool isExist(int id,bool output);//检查输入学号是否已存在
 bool birthdayJudge(int year, int month, int day);//判断输入的出生日期是否有误
 bool isLeap(int year, int month, int day);//月份为2时根据年份判断是否闰年，然后判断输入的出生日期是否有误
 bool sexJudge(char sex[]);//判断输入的性别是否为“男”或“女”
-void safeInput(int a);//scanf的处理
 
 void menu() //菜单
 {
@@ -727,11 +726,6 @@ void printStu(struct Stu* stu) //输出学生信息
 	return;
 }
 
-void safeInput(int a) {
-	//if(a == 0)//scanf扫到了0个 防止意外 删除非法字符
-	while (getchar() != '\n');//删除非法字符
-	return;
-}
 int main(int argc, char* argv[]) 
 {
 	load();
