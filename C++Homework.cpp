@@ -33,6 +33,37 @@ struct Stu {
 //7. 学生信息保存
 //8. 退出
 
+
+//函数分布 
+//main()
+//		load()							默认自动导入信息 
+//		menu()							进入菜单 	
+//			0.	load()					手动导入信息 
+//			1.	add()					新增 
+//					isExist()			查重 
+//					birthdayJudge()		出生日期判断 
+//						isLeap()		闰年判断 
+//					addRaw()			将信息加入链表 
+//			2.	search()				搜索 
+//			3.	change()				修改		
+//					birthdayJudge()		出生日期判断 
+//						isLeap()		闰年判断 
+//			4.	del()					删除 
+//					printStu()			打印学生信息
+//			5.	searchAll()				信息统计（包含筛选打印和全部打印）
+//					screenField()		按照指定专业打印信息
+//						printStu() 		打印学生信息
+//					screenSex()			按照指定性别打印信息
+//						printStu() 		打印学生信息
+//					screenAge()			按照指定年龄打印信息（年龄根据该学生信息中的年份自动计算）
+//						printStu() 		打印学生信息
+//			6.	sort()					按照英语成绩排序（采用冒泡循环）
+//			7.	save()					将链表信息存入文件
+//			8.	save()
+//				return					将链表信息存入文件后返回主函数，结束程序 
+
+
+
 struct Stu* head = NULL;
 struct Stu* last = NULL;
 
