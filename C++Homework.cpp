@@ -161,9 +161,8 @@ void menu() //菜单
 void add()//增加 
 {
 	int id;
-	printf("输入学号：");
-	safeInput(scanf("%d", &id));
-
+	cout << "输入学号：";
+	cin >> id;
 	if (isExist(id, true)) {
 		system("pause");
 		return;//已经存在此人 返回菜单
