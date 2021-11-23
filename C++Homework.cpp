@@ -4,6 +4,7 @@
 #include <time.h>
 #include <iostream>
 #include <fstream>
+#include <iomanip>
 using namespace std;
 
 struct Date
@@ -74,10 +75,10 @@ struct Stu* last = NULL;
 void menu();				//菜单														
 void load(bool output);		//导入学生信息												0.done
 void add();					//新增学生信息												1.done 
-void search();				//学生信息查询(按姓名)											2.done
-void change();				//修改学生信息（好像没要求写，自己加的）							3.done
+void search();				//学生信息查询(按姓名)										2.done
+void change();				//修改学生信息（好像没要求写，自己加的）					3.done
 void del();					//删除学生信息												4.done
-void searchAll();			//学生信息统计（按专业或性别或年龄---年龄要自动计算）				5.done
+void searchAll();			//学生信息统计（按专业或性别或年龄---年龄要自动计算）		5.done
 void sort(bool output);		//排序														6.done
 void printAll();			//输出全部信息												7.done
 void save(bool output);		//学生信息保存												8.done
@@ -98,25 +99,25 @@ void menu() //菜单
 	int userChoice;
 	while (true) {
 		system("cls");//清屏
-		cout << "\n";
-		cout << "----------------------------学生基本信息管理系统----------------------------\n";
-		cout << "\n";
-		cout << "0.导入学生信息（默认已自动导入）\n";
-		cout << "1.新增学生信息 \n";
-		cout << "2.查询学生信息 \n";
-		cout << "3.修改学生信息 \n";
-		cout << "4.删除学生信息 \n";
-		cout << "5.学生信息统计 \n";
-		cout << "6.学生成绩排序 \n";
-		cout << "7.学生信息总览 \n";
-		cout << "8.学生信息储存 \n";
-		cout << "9.保存并安全退出 \n";
-		cout << "\n";
-		cout << "使用注意事项\n";
-		cout << "进行“增加”、“修改”、“删除”操作后，务必将信息储存，否则不会保存在文件内！\n";
-		cout << "-----------------------------------------------------------------------------\n";
+		cout << endl;
+		cout << "----------------------------学生基本信息管理系统----------------------------" << endl;
+		cout << endl;
+		cout << "0.导入学生信息（默认已自动导入）" << endl;
+		cout << "1.新增学生信息 " << endl;
+		cout << "2.查询学生信息 " << endl;
+		cout << "3.修改学生信息 " << endl;
+		cout << "4.删除学生信息 " << endl;
+		cout << "5.学生信息统计 " << endl;
+		cout << "6.学生成绩排序 " << endl;
+		cout << "7.学生信息总览 " << endl;
+		cout << "8.学生信息储存 " << endl;
+		cout << "9.保存并安全退出" << endl;
+		cout << endl;
+		cout << "使用注意事项" << endl;
+		cout << "进行“增加”、“修改”、“删除”操作后，务必将信息储存，否则不会保存在文件内！" << endl;
+		cout << "-----------------------------------------------------------------------------" << endl;
+		
 		cout << "请输入序号：";
-
 		cin >> userChoice;
 
 		switch (userChoice)
@@ -153,7 +154,7 @@ void menu() //菜单
 			return;
 			break;
 		default:
-			printf("无法识别，请重新输入\n");
+			cout << "无法识别，请重新输入" << endl;
 			system("pause");
 		}
 	}
@@ -162,8 +163,10 @@ void menu() //菜单
 void add()//增加 
 {
 	int id;
+
 	cout << "输入学号：";
 	cin >> id;
+
 	if (isExist(id, true)) {
 		system("pause");
 		return;//已经存在此人 返回菜单
@@ -175,13 +178,13 @@ void add()//增加
 		int year, month, day;
 
 		cout << "输入姓名: ";
-		cin.getline(name,15);
+		cin >> name;
 
 		cout << "输入性别: ";
-		cin.getline(sex, 5);
+		cin >> sex;
 
 		cout << "输入专业: ";
-		cin.getline(field, 30);
+		cin >> field;
 
 		cout << "请输入出生年份: ";
 		cin >> year;
@@ -193,26 +196,27 @@ void add()//增加
 		cin >> day;
 
 		cout << "输入家庭地址: ";
-		cin.getline(address, 100);
+		cin >> address;
 
 		cout << "输入英语入学成绩：";
 		cin >> E_grade;
 
 		if (!birthdayJudge(year, month, day))
 		{
-			cout << "日期输入有误，返回至菜单\n";
+			cout << "日期输入有误，返回至菜单" << endl;
 			system("pause");
 			return;
 		}
+
 		if (!sexJudge(sex))
 		{
-			cout << "性别输入不符实际，返回至菜单\n";
+			cout << "性别输入不符实际，返回至菜单" << endl;
 			system("pause");
 			return;
 		}
 
 		addRaw(id, name, sex, field, year, month, day, address, E_grade);
-		cout << "添加成功！\n";
+		cout << "添加成功" << endl;
 		system("pause");
 		return;
 	}
@@ -222,6 +226,7 @@ bool birthdayJudge(int year, int month, int day)
 {
 	time_t  t;
 	time(&t);
+
 	if (year <= localtime(&t)->tm_year + 1900 && month >= 1 && month <= 12 && day >= 1 && day <= 31)
 	{
 		switch (month)
@@ -251,10 +256,12 @@ bool isLeap(int year, int month, int day)//闰年判断（闰年2月29天，平�
 	int four;
 	int hundred1;
 	int hundred4;
+
 	four = year % 4;
 	hundred1 = year % 100;
 	hundred4 = year % 400;
-	if ((hundred4 == 0 ) || (four == 0 && hundred1 != 0))//闰年
+
+	if ((hundred4 == 0 ) || (four == 0 && hundred1 != 0))//闰年（能被400整除或能被4整除但不能被100整除）
 	{
 		if (day <= 29)
 		{
@@ -278,7 +285,7 @@ bool isLeap(int year, int month, int day)//闰年判断（闰年2月29天，平�
 	}
 }
 
-bool sexJudge(char sex[])
+bool sexJudge(char sex[])//判断输入的性别是否为“男”或“女”
 {
 	if (strcmp(sex,"男") == 0 || strcmp(sex, "女") == 0)
 	{
@@ -290,11 +297,13 @@ bool sexJudge(char sex[])
 void addRaw(int id,char name[],char sex[],char field[],int year,int month,int day,char address[],float E_grade) //赋值
 {
 	struct Stu* toAdd = (struct Stu*)malloc(sizeof(struct Stu));
+
 	if (toAdd == NULL) {
-		cout << "内存不足！无法添加";
+		cout << "内存不足！无法添加" << endl;
 		system("pause");
 		return;
 	}
+
 	toAdd->id = id;
 	strcpy(toAdd->name, name);
 	strcpy(toAdd->sex, sex);
@@ -323,7 +332,9 @@ bool isExist(int id, bool output = false)//查重 output为是否输出已经存
 	{
 		return false;
 	}
+
 	struct Stu* item = head;
+
 	if (item->id == id)
 	{
 		if (output) {
@@ -354,8 +365,10 @@ void search()//查询
 {
 	struct Stu* item = head;
 	char inputName[15];
+
 	cout << "输入要查询学生的姓名:";
-	cin.getline(inputName, 15);
+	cin >> inputName;
+
 	inputName[14] = '\0';//防止用户输入过长 导致没有\0
 	cout << "下面是数据库内有关" << inputName << "的信息" << endl;
 	cout << endl;
@@ -394,13 +407,13 @@ void change()//修改
 			cout << "开始修改" << endl;
 
 			cout << "输入姓名: ";
-			cin.getline(item->name, 15);
+			cin >> item->name;
 
 			cout << "输入性别: ";
-			cin.getline(item->sex, 5);
+			cin >> item->sex;
 
 			cout << "输入专业: ";
-			cin.getline(item->field, 30);
+			cin >> item->field;
 
 			cout << "请输入出生年份: ";
 			cin >> item->birthday.year;
@@ -412,19 +425,22 @@ void change()//修改
 			cin >> item->birthday.day;
 
 			cout << "输入家庭地址: ";
-			cin.getline(item->address, 100);
+			cin >> item->address;
 
 			cout << "输入英语入学成绩：";
 			cin >> item->E_grade;
 
-			printf("-----------------------------------------------");
+			cout << "-----------------------------------------------" << endl;
+
 			if (birthdayJudge(item->birthday.year, item->birthday.month, item->birthday.day))
 			{
 				return;
 			}
 			cout << endl;
-			cout << "修改后结果为\n";
+
+			cout << "修改后结果为" << endl;
 			printStu(item);
+
 			cout << endl;
 			system("pause");
 			return;
@@ -442,8 +458,10 @@ void del()//删除
 	int id;
 	struct Stu* needToDel, * beforeDel;
 	beforeDel = NULL;
+
 	cout << "输入要删除学生的学号:";
 	cin >> id;
+
 	needToDel = head;
 	while (needToDel != NULL)
 	{
@@ -492,6 +510,7 @@ void searchAll()//信息统计（筛选出制定专业或性别或年龄）
 		cout << endl;
 		cout << "------------------------------------------------------------------------" <<endl;
 		cout << endl;
+
 		cout << "请输入序号:";
 		cin >> userChoice;
 			
@@ -527,7 +546,7 @@ void screenField()//按照专业筛选出符合条件的学生
 	findField[29] = '\0';
 
 	cout << "请输入要筛选出的专业：" << endl;
-	cin.getline(findField, 30);
+	cin >> findField;
 
 	cout << endl << "以下是数据库中的信息：" << endl;
 	while (item != NULL)
@@ -552,8 +571,10 @@ void screenSex()//按照性别筛选出符合条件的学生
 	char findSex[5] = {0};
 	int count = 0;
 	findSex[4] = '\0';
+
 	cout << "请输入要筛选出的性别：";
-	cin.getline(findSex, 30);
+	cin >> findSex;
+
 	cout << endl << "以下是数据库中的信息：" << endl;
 	while (item != NULL)
 	{
@@ -578,8 +599,10 @@ void screenAge()//按照年龄筛选出符合条件的学生
 	int count = 0;
 	time_t  t;
 	time(&t);
+
 	cout << "请输入要筛选出的年龄：";
 	cin >> findAge;
+
 	cout << endl << "以下是数据库中的信息：" << endl;
 	while (item != NULL)
 	{
@@ -724,7 +747,16 @@ void save(bool output = false)//文件存放
 
 void printStu(struct Stu* stu) //输出学生信息
 {
-	printf("学号: %-10d 姓名: %-10s 性别: %-10s 专业: %-15s 出生日期: %-4d-%-2d-%-5d 家庭地址: %-20s英语入学成绩: %.1f\n", stu->id, stu->name, stu->sex, stu->field, stu->birthday.year, stu->birthday.month, stu->birthday.day, stu->address, stu->E_grade);
+	cout << "学号:" << std::left << setw(12) << stu->id;
+	cout << "姓名:" << std::left << setw(10) << stu->name;
+	cout << "性别:" << std::left << setw(5) << stu->sex;
+	cout << "专业:" << std::left << setw(15) << stu->field;
+	cout << "出生日期:" << std::left << setw(4) << stu->birthday.year << "-" << std::right << setw(2) << stu->birthday.month << "-" << std::right << setw(2) << stu->birthday.day << std::right << setw(15);
+	cout << "家庭地址:" << std::left << setw(24) << stu->address;
+	cout << "英语入学成绩:" << std::left << setw(3) << stu->E_grade;
+	cout << endl;
+	cout << endl;
+
 	return;
 }
 
