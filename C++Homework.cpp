@@ -381,8 +381,10 @@ void change()//修改
 {
 	struct Stu* item;
 	int id;
+
 	cout << "输入要修改学生的学号:";
 	cin >> id;
+
 	item = head;
 	while (item != NULL)
 	{
