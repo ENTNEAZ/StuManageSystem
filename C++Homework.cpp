@@ -1,4 +1,45 @@
-﻿#include <stdio.h>
+﻿//有新生来报到，要逐个录入其信息，
+//如：学生姓名，性别，专业，出生日期，家庭地址，英语入学成绩。
+//要求设计链表类来实现，并统计学生人数。文本界面为：
+//1. 新增学生信息 
+//2. 删除学生信息
+//3. 导入学生信息（已经保存于的文件信息）
+//4. 学生信息搜索（按姓名）
+//5. 学生信息统计（按专业或性别或年龄---年龄要自动计算）
+//6. 按英语成绩排序
+//7. 学生信息保存
+//8. 退出
+
+//函数分布 
+//main()
+//		load()							默认自动导入信息 
+//		menu()							进入菜单 	
+//			0.	load()					手动导入信息 
+//			1.	add()					新增 
+//					isExist()			查重 
+//					birthdayJudge()		出生日期判断 
+//						isLeap()		闰年判断 
+//					addRaw()			将信息加入链表 
+//			2.	search()				搜索 
+//			3.	change()				修改		
+//					birthdayJudge()		出生日期格式判断 
+//						isLeap()		闰年判断 
+//					sexJudge()			性别格式判断
+//			4.	del()					删除 
+//					printStu()			打印学生信息
+//			5.	searchAll()				信息统计（包含筛选打印和全部打印）
+//					screenField()		按照指定专业打印信息
+//						printStu() 		打印学生信息
+//					screenSex()			按照指定性别打印信息
+//						printStu() 		打印学生信息
+//					screenAge()			按照指定年龄打印信息（年龄根据该学生信息中的年份自动计算）
+//						printStu() 		打印学生信息
+//			6.	sort()					按照英语成绩排序（采用冒泡循环）
+//			7.	save()					将链表信息存入文件
+//			8.	save()
+//				return					将链表信息存入文件后返回主函数，结束程序 
+
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
@@ -25,52 +66,8 @@ struct Stu {
 	struct Stu* next;
 };
 
-//有新生来报到，要逐个录入其信息，
-//如：学生姓名，性别，专业，出生日期，家庭地址，英语入学成绩。
-//要求设计链表类来实现，并统计学生人数。文本界面为：
-//1. 新增学生信息 
-//2. 删除学生信息
-//3. 导入学生信息（已经保存于的文件信息）
-//4. 学生信息搜索（按姓名）
-//5. 学生信息统计（按专业或性别或年龄---年龄要自动计算）
-//6. 按英语成绩排序
-//7. 学生信息保存
-//8. 退出
-
-
-//函数分布 
-//main()
-//		load()							默认自动导入信息 
-//		menu()							进入菜单 	
-//			0.	load()					手动导入信息 
-//			1.	add()					新增 
-//					isExist()			查重 
-//					birthdayJudge()		出生日期判断 
-//						isLeap()		闰年判断 
-//					addRaw()			将信息加入链表 
-//			2.	search()				搜索 
-//			3.	change()				修改		
-//					birthdayJudge()		出生日期判断 
-//						isLeap()		闰年判断 
-//			4.	del()					删除 
-//					printStu()			打印学生信息
-//			5.	searchAll()				信息统计（包含筛选打印和全部打印）
-//					screenField()		按照指定专业打印信息
-//						printStu() 		打印学生信息
-//					screenSex()			按照指定性别打印信息
-//						printStu() 		打印学生信息
-//					screenAge()			按照指定年龄打印信息（年龄根据该学生信息中的年份自动计算）
-//						printStu() 		打印学生信息
-//			6.	sort()					按照英语成绩排序（采用冒泡循环）
-//			7.	save()					将链表信息存入文件
-//			8.	save()
-//				return					将链表信息存入文件后返回主函数，结束程序 
-
-
-
 struct Stu* head = NULL;
 struct Stu* last = NULL;
-
 
 void menu();				//菜单														
 void load(bool output);		//导入学生信息												0.done
@@ -83,21 +80,24 @@ void sort(bool output);		//排序														6.done
 void printAll();			//输出全部信息												7.done
 void save(bool output);		//学生信息保存												8.done
 
-void addRaw(int id, char name[], char sex[], char field[], int year, int month, int day, char address[], float E_grade);//赋值
-void printStu(struct Stu* stu);//输出学生信息
-void screenField();//按照专业筛选学生
-void screenSex();//按照性别筛选学生
-void screenAge();//按照年龄筛选学生
+void addRaw(int id, char name[], char sex[], char field[], int year, int month, int day, char address[], float E_grade);
+													//赋值
+void printStu(struct Stu* stu);						//输出学生信息
+void screenField();									//按照专业筛选学生
+void screenSex();									//按照性别筛选学生
+void screenAge();									//按照年龄筛选学生
 
-bool isExist(int id,bool output);//检查输入学号是否已存在
-bool birthdayJudge(int year, int month, int day);//判断输入的出生日期是否有误
-bool isLeap(int year, int month, int day);//月份为2时根据年份判断是否闰年，然后判断输入的出生日期是否有误
-bool sexJudge(char sex[]);//判断输入的性别是否为“男”或“女”
+bool isExist(int id,bool output);					//检查输入学号是否已存在
+bool birthdayJudge(int year, int month, int day);	//判断输入的出生日期是否有误
+bool isLeap(int year, int month, int day);			//月份为2时根据年份判断是否闰年，然后判断输入的出生日期是否有误
+bool sexJudge(char sex[]);							//判断输入的性别是否为“男”或“女”
 
 void menu() //菜单
 {
 	int userChoice;
-	while (true) {
+
+	while (true) 
+	{
 		system("cls");//清屏
 		cout << endl;
 		cout << "----------------------------学生基本信息管理系统----------------------------" << endl;
@@ -167,7 +167,8 @@ void add()//增加
 	cout << "输入学号：";
 	cin >> id;
 
-	if (isExist(id, true)) {
+	if (isExist(id, true)) 
+	{
 		system("pause");
 		return;//已经存在此人 返回菜单
 	}
@@ -344,6 +345,7 @@ bool isExist(int id, bool output = false)//查重 output为是否输出已经存
 		}
 		return true;
 	}
+
 	while (item != NULL)
 	{
 		if (item->id == id)
@@ -372,6 +374,7 @@ void search()//查询
 	inputName[14] = '\0';//防止用户输入过长 导致没有\0
 	cout << "下面是数据库内有关" << inputName << "的信息" << endl;
 	cout << endl;
+
 	while (item != NULL)
 	{
 		if (strcmp(item->name, inputName) == 0)
@@ -399,6 +402,7 @@ void change()//修改
 	cin >> id;
 
 	item = head;
+
 	while (item != NULL)
 	{
 		if (item->id == id)
@@ -463,6 +467,7 @@ void del()//删除
 	cin >> id;
 
 	needToDel = head;
+
 	while (needToDel != NULL)
 	{
 		if (needToDel->id == id)
@@ -495,6 +500,7 @@ void del()//删除
 void searchAll()//信息统计（筛选出制定专业或性别或年龄）
 {
 	int userChoice;
+
 	while (true)
 	{
 		system("cls");
@@ -549,6 +555,7 @@ void screenField()//按照专业筛选出符合条件的学生
 	cin >> findField;
 
 	cout << endl << "以下是数据库中的信息：" << endl;
+
 	while (item != NULL)
 	{
 		if (strcmp(item->field, findField) == 0)
@@ -558,6 +565,7 @@ void screenField()//按照专业筛选出符合条件的学生
 		}
 		item = item->next;
 	}
+
 	cout << endl;
 	cout << "符合条件的学生有" << count << "个" << endl;
 	cout << "----------------------------------------------------------" << endl;
@@ -576,6 +584,7 @@ void screenSex()//按照性别筛选出符合条件的学生
 	cin >> findSex;
 
 	cout << endl << "以下是数据库中的信息：" << endl;
+
 	while (item != NULL)
 	{
 		if (strcmp(item->sex, findSex) == 0)
@@ -585,6 +594,7 @@ void screenSex()//按照性别筛选出符合条件的学生
 		}
 		item = item->next;
 	}
+
 	cout << endl;
 	cout << "符合条件的学生有" << count << "个" << endl;
 	cout << "----------------------------------------------------------" << endl;
@@ -597,6 +607,7 @@ void screenAge()//按照年龄筛选出符合条件的学生
 	struct Stu* item = head;
 	int findAge;
 	int count = 0;
+
 	time_t  t;
 	time(&t);
 
@@ -604,6 +615,7 @@ void screenAge()//按照年龄筛选出符合条件的学生
 	cin >> findAge;
 
 	cout << endl << "以下是数据库中的信息：" << endl;
+
 	while (item != NULL)
 	{
 		if ((localtime(&t)->tm_year + 1900)-item->birthday.year == findAge)
@@ -613,6 +625,7 @@ void screenAge()//按照年龄筛选出符合条件的学生
 		}
 		item = item->next;
 	}
+
 	cout << endl;
 	cout << "符合条件的学生有" << count << "个" << endl;
 	cout << "----------------------------------------------------------" << endl;
@@ -623,10 +636,13 @@ void screenAge()//按照年龄筛选出符合条件的学生
 void printAll() {
 	struct Stu* item = head;
 	cout << endl << "以下是数据库中所有人的信息：" << endl;
-	while (item != NULL) {
+
+	while (item != NULL) 
+	{
 		printStu(item);
 		item = item->next;
 	}
+
 	cout << endl;
 	system("pause");
 	return;
@@ -638,6 +654,7 @@ void sort(bool output = false)//按照英语成绩排序
 	end = NULL;
 	prePoint = NULL;
 	curPoint = head;
+
 	if (curPoint == NULL || curPoint->next == NULL)
 	{
 		cout << "排序成功，已按照英语成绩进行排序" << endl;
@@ -647,17 +664,20 @@ void sort(bool output = false)//按照英语成绩排序
 		
 	//至少有两个
 	nextPoint = curPoint->next;//初始化三个指针 
+
 	while (head->next != end)
 	{
 		prePoint = NULL;
 		curPoint = head;
 		nextPoint = curPoint->next;//结束for循环，对几个指针进行复位
+
 		for (; nextPoint != end; prePoint = prePoint == NULL?head:prePoint->next, curPoint = curPoint->next, nextPoint = nextPoint->next)
 		{	//判断是否到达结束位置 ; 
 
 			if (curPoint->E_grade < nextPoint->E_grade) //从大到小
 			{
-				if (prePoint != NULL) {
+				if (prePoint != NULL) 
+				{
 					prePoint->next = nextPoint;
 					curPoint->next = nextPoint->next;
 					nextPoint->next = curPoint;
@@ -675,7 +695,9 @@ void sort(bool output = false)//按照英语成绩排序
 		}
 		end = curPoint;//一轮循环结束 最后一项已经排好 end提前一项 (冒泡原理)
 	}
-	if (output) {
+
+	if (output) 
+	{
 		cout << "排序成功，已按照英语成绩进行排序" << endl;
 		system("pause");
 	}
@@ -708,6 +730,7 @@ void load(bool output = false) //
 	}
 
 	fp != NULL ? fclose(fp) : NULL;
+
 	if (output) 
 	{
 		cout << "导入成功" << endl;
@@ -738,7 +761,9 @@ void save(bool output = false)//文件存放
 	}
 
 	fp != NULL ? fclose(fp) : NULL;
-	if (output) {
+
+	if (output) 
+	{
 		cout << "导出成功" << endl;
 		system("pause");
 	}
