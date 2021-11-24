@@ -36,8 +36,8 @@
 //						printStu() 		打印学生信息
 //			6.	sort()					按照英语成绩排序（采用冒泡循环）
 //			7.	save()					将链表信息存入文件
-//			8.	save()
-//				return					将链表信息存入文件后返回主函数，结束程序 
+//			8.	save()					将链表信息存入文件后返回主函数，结束程序 
+			
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -707,6 +707,7 @@ void sort(bool output = false)//按照英语成绩排序
 
 void printStu(struct Stu* stu) //输出学生信息
 {
+	cout << endl;
 	cout << "学号:" << std::left << setw(12) << stu->id;
 	cout << "姓名:" << std::left << setw(10) << stu->name;
 	cout << "性别:" << std::left << setw(5) << stu->sex;
@@ -714,6 +715,7 @@ void printStu(struct Stu* stu) //输出学生信息
 	cout << "出生日期:" << std::left << setw(4) << stu->birthday.year << "-" << std::right << setw(2) << stu->birthday.month << "-" << std::right << setw(2) << stu->birthday.day << std::right << setw(15);
 	cout << "家庭地址:" << std::left << setw(24) << stu->address;
 	cout << "英语入学成绩:" << std::left << setw(3) << stu->E_grade;
+	cout << endl;
 	cout << endl;
 	cout << endl;
 
