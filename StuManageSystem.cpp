@@ -336,16 +336,6 @@ bool isExist(int id, bool output = false)//查重 output为是否输出已经存
 
 	struct Stu* item = head;
 
-	if (item->id == id)
-	{
-		if (output) {
-			cout << "学号 :  " << item->id << "姓名 :  " << item->name << "性别 :  " << item->sex << "专业 :  " << item->field << endl; 
-			cout << "学号已存在，请重新输入" << endl;
-			cout << endl;
-		}
-		return true;
-	}
-
 	while (item != NULL)
 	{
 		if (item->id == id)
@@ -633,7 +623,8 @@ void screenAge()//按照年龄筛选出符合条件的学生
 	return;
 }
 
-void printAll() {
+void printAll() 
+{
 	struct Stu* item = head;
 	cout << endl << "以下是数据库中所有人的信息：" << endl;
 
@@ -704,6 +695,20 @@ void sort(bool output = false)//按照英语成绩排序
 		
 }
 
+void printStu(struct Stu* stu) //输出学生信息
+{
+	cout << "学号:" << std::left << setw(12) << stu->id;
+	cout << "姓名:" << std::left << setw(10) << stu->name;
+	cout << "性别:" << std::left << setw(5) << stu->sex;
+	cout << "专业:" << std::left << setw(15) << stu->field;
+	cout << "出生日期:" << std::left << setw(4) << stu->birthday.year << "-" << std::right << setw(2) << stu->birthday.month << "-" << std::right << setw(2) << stu->birthday.day << std::right << setw(15);
+	cout << "家庭地址:" << std::left << setw(24) << stu->address;
+	cout << "英语入学成绩:" << std::left << setw(3) << stu->E_grade;
+	cout << endl;
+	cout << endl;
+
+	return;
+}
 
 void load(bool output = false) //
 {
@@ -772,21 +777,6 @@ void save(bool output = false)//文件存放
 		cout << "导出成功" << endl;
 		system("pause");
 	}
-	return;
-}
-
-void printStu(struct Stu* stu) //输出学生信息
-{
-	cout << "学号:" << std::left << setw(12) << stu->id;
-	cout << "姓名:" << std::left << setw(10) << stu->name;
-	cout << "性别:" << std::left << setw(5) << stu->sex;
-	cout << "专业:" << std::left << setw(15) << stu->field;
-	cout << "出生日期:" << std::left << setw(4) << stu->birthday.year << "-" << std::right << setw(2) << stu->birthday.month << "-" << std::right << setw(2) << stu->birthday.day << std::right << setw(15);
-	cout << "家庭地址:" << std::left << setw(24) << stu->address;
-	cout << "英语入学成绩:" << std::left << setw(3) << stu->E_grade;
-	cout << endl;
-	cout << endl;
-
 	return;
 }
 
