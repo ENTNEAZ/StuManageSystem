@@ -1,6 +1,6 @@
 ﻿//有新生来报到，要逐个录入其信息，
 //如：学生姓名，性别，专业，出生日期，家庭地址，英语入学成绩。
-//要求设计链表类来实现，并统计学生人数。文本界面为：
+//要求设计链表来实现，并统计学生人数。文本界面为：
 //1. 新增学生信息 
 //2. 删除学生信息
 //3. 导入学生信息（已经保存于的文件信息）
@@ -46,6 +46,7 @@
 #include <iostream>
 #include <fstream>
 #include <iomanip>
+
 using namespace std;
 
 struct Date
@@ -80,8 +81,7 @@ void sort(bool output);		//排序														6.done
 void printAll();			//输出全部信息												7.done
 void save(bool output);		//学生信息保存												8.done
 
-void addRaw(int id, char name[], char sex[], char field[], int year, int month, int day, char address[], float E_grade);
-													//赋值
+void addRaw(int id, char name[], char sex[], char field[], int year, int month, int day, char address[], float E_grade);//赋值												
 void printStu(struct Stu* stu);						//输出学生信息
 void screenField();									//按照专业筛选学生
 void screenSex();									//按照性别筛选学生
@@ -99,8 +99,12 @@ void menu() //菜单
 	while (true) 
 	{
 		system("cls");//清屏
+
+		cout << endl;
+		cout << endl;
 		cout << endl;
 		cout << "----------------------------学生基本信息管理系统----------------------------" << endl;
+		cout << endl;
 		cout << endl;
 		cout << "0.导入学生信息（默认已自动导入）" << endl;
 		cout << "1.新增学生信息 " << endl;
@@ -113,8 +117,11 @@ void menu() //菜单
 		cout << "8.学生信息储存 " << endl;
 		cout << "9.保存并安全退出" << endl;
 		cout << endl;
+		cout << endl;
 		cout << "使用注意事项" << endl;
 		cout << "进行“增加”、“修改”、“删除”操作后，务必将信息储存，否则不会保存在文件内！" << endl;
+		cout << endl;
+		cout << endl;
 		cout << "-----------------------------------------------------------------------------" << endl;
 		
 		cout << "请输入序号：";
@@ -336,16 +343,6 @@ bool isExist(int id, bool output = false)//查重 output为是否输出已经存
 
 	struct Stu* item = head;
 
-	if (item->id == id)
-	{
-		if (output) {
-			cout << "学号 :  " << item->id << "姓名 :  " << item->name << "性别 :  " << item->sex << "专业 :  " << item->field << endl; 
-			cout << "学号已存在，请重新输入" << endl;
-			cout << endl;
-		}
-		return true;
-	}
-
 	while (item != NULL)
 	{
 		if (item->id == id)
@@ -507,6 +504,7 @@ void searchAll()//信息统计（筛选出制定专业或性别或年龄）
 		cout << endl;
 		cout << "----------------------------学生信息统计系统----------------------------" << endl;
 		cout << endl;
+		cout << endl;
 		cout << "1.按照专业筛选" << endl;
 		cout << "2.按照性别筛选" << endl;
 		cout << "3.按照年龄筛选" << endl;
@@ -514,7 +512,9 @@ void searchAll()//信息统计（筛选出制定专业或性别或年龄）
 		cout << endl;
 		cout << "5.返回主菜单" << endl;
 		cout << endl;
+		cout << endl;
 		cout << "------------------------------------------------------------------------" <<endl;
+		cout << endl;
 		cout << endl;
 
 		cout << "请输入序号:";
@@ -633,7 +633,8 @@ void screenAge()//按照年龄筛选出符合条件的学生
 	return;
 }
 
-void printAll() {
+void printAll() 
+{
 	struct Stu* item = head;
 	cout << endl << "以下是数据库中所有人的信息：" << endl;
 
@@ -704,6 +705,20 @@ void sort(bool output = false)//按照英语成绩排序
 		
 }
 
+void printStu(struct Stu* stu) //输出学生信息
+{
+	cout << "学号:" << std::left << setw(12) << stu->id;
+	cout << "姓名:" << std::left << setw(10) << stu->name;
+	cout << "性别:" << std::left << setw(5) << stu->sex;
+	cout << "专业:" << std::left << setw(15) << stu->field;
+	cout << "出生日期:" << std::left << setw(4) << stu->birthday.year << "-" << std::right << setw(2) << stu->birthday.month << "-" << std::right << setw(2) << stu->birthday.day << std::right << setw(15);
+	cout << "家庭地址:" << std::left << setw(24) << stu->address;
+	cout << "英语入学成绩:" << std::left << setw(3) << stu->E_grade;
+	cout << endl;
+	cout << endl;
+
+	return;
+}
 
 void load(bool output = false) //
 {
@@ -772,21 +787,6 @@ void save(bool output = false)//文件存放
 		cout << "导出成功" << endl;
 		system("pause");
 	}
-	return;
-}
-
-void printStu(struct Stu* stu) //输出学生信息
-{
-	cout << "学号:" << std::left << setw(12) << stu->id;
-	cout << "姓名:" << std::left << setw(10) << stu->name;
-	cout << "性别:" << std::left << setw(5) << stu->sex;
-	cout << "专业:" << std::left << setw(15) << stu->field;
-	cout << "出生日期:" << std::left << setw(4) << stu->birthday.year << "-" << std::right << setw(2) << stu->birthday.month << "-" << std::right << setw(2) << stu->birthday.day << std::right << setw(15);
-	cout << "家庭地址:" << std::left << setw(24) << stu->address;
-	cout << "英语入学成绩:" << std::left << setw(3) << stu->E_grade;
-	cout << endl;
-	cout << endl;
-
 	return;
 }
 
