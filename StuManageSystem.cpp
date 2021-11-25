@@ -86,11 +86,13 @@ void printStu(struct Stu* stu);						//输出学生信息
 void screenField();									//按照专业筛选学生
 void screenSex();									//按照性别筛选学生
 void screenAge();									//按照年龄筛选学生
+void updateLast();									//更新last指针
 
 bool isExist(int id,bool output);					//检查输入学号是否已存在
 bool birthdayJudge(int year, int month, int day);	//判断输入的出生日期是否有误
 bool isLeap(int year, int month, int day);			//月份为2时根据年份判断是否闰年，然后判断输入的出生日期是否有误
 bool sexJudge(char sex[]);							//判断输入的性别是否为“男”或“女”
+
 
 void menu() //菜单
 {
@@ -395,7 +397,6 @@ void change()//修改
 {
 	struct Stu* item;
 	int id;
-
 	cout << "输入要修改学生的学号:";
 	cin >> id;
 
@@ -471,6 +472,9 @@ void del()//删除
 		if (needToDel->id == id)
 		{
 			printStu(needToDel);
+			if (needToDel == last) {
+				last = beforeDel;//指向前面的
+			}
 			if (beforeDel == NULL) 
 			{
 				head = needToDel->next;
@@ -489,6 +493,7 @@ void del()//删除
 		{
 			beforeDel = needToDel;
 			needToDel = needToDel->next;
+
 		}
 	}
 	cout << "学号不存在！返回至菜单:" << endl;
@@ -794,6 +799,14 @@ void save(bool output = false)//文件存放
 	return;
 }
 
+void updateLast() {
+	Stu* item = head;
+	while (item->next != NULL)
+	{
+		item = item->next;
+	}
+	last = item;
+}
 int main(int argc, char* argv[]) 
 {
 	load();
