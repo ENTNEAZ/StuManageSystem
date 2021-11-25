@@ -306,7 +306,8 @@ void addRaw(int id,char name[],char sex[],char field[],int year,int month,int da
 {
 	struct Stu* toAdd = new struct Stu;
 
-	if (toAdd == NULL) {
+	if (toAdd == NULL) 
+	{
 		cout << "内存不足！无法添加" << endl;
 		system("pause");
 		return;
@@ -475,7 +476,8 @@ void del()//删除
 				head = needToDel->next;
 				delete needToDel;
 			}
-			else {
+			else 
+			{
 				beforeDel->next = needToDel->next;
 				delete needToDel;
 			}
