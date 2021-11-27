@@ -799,7 +799,8 @@ void save(bool output = false)//文件存放
 	return;
 }
 
-void updateLast() {
+void updateLast() 
+{
 	Stu* item = head;
 	while (item->next != NULL)
 	{
