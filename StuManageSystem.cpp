@@ -17,9 +17,9 @@
 //			0.	load()					手动导入信息 
 //			1.	add()					新增 
 //					isExist()			查重 
-//					birthdayJudge()		出生日期判断 
+//					birthdayJudge()		出生日期格式判断 
 //						isLeap()		闰年判断 
-//					addRaw()			将信息加入链表 
+//					sexJudge()			性别格式判断
 //			2.	search()				搜索 
 //			3.	change()				修改		
 //					birthdayJudge()		出生日期格式判断 
